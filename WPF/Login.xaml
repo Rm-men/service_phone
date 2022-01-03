@@ -6,17 +6,21 @@
         xmlns:local="clr-namespace:WPF"
         mc:Ignorable="d"
         Title="Window1" Height="214" Width="307">
-    <Grid Margin="0,0,30,22">
+    <Grid Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="0,5*"/>
+            <RowDefinition Height="0,5*"/>
+            <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
         <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">Пользователь</Label>
+        <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">Пароль:</Label>
         <ComboBox x:Name="cbbPersonnel" Grid.Column="1" Grid.Row="0" Height="30" Margin="5 0 5 0"  SelectedItem="{}"/>
-        <Button x:Name="btnLogin" Grid.Column="1" Grid.Row="1" Content="Войти в систему" Height="30" Margin="5 0 5 0" Command="{}" />
+        <PasswordBox x:Name="paswordbox"  Grid.Column="1" Grid.Row="1"  Height="30" Margin="5 0 5 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" PasswordChar="*" ></PasswordBox>
+        <Button x:Name="btnLogin" Grid.Column="1" Grid.Row="3" Content="Войти в систему" Height="30" Margin="5 0 5 0" Command="{}" Click="click" />
+  
     </Grid>
 </Window>
