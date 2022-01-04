@@ -3,18 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace ClassLibrary.Entity
 {
     public class Component
     {
-      
-        public string compoent_type { get; set; }
-        public ulong component_count { get; set; }
-        public double component_price { get; set; }
-        public string component_name { get; set; }
-        public string Сomponent_guarante { get; set; }
-        public string Сomponent_manufacturer { get; set; }
+        [MaxLength(25)]
+        public string id_component { get; set; }
+        [Required] 
+        [MaxLength(20)]
+        public string type_c { get; set; }
+        [Required]
+        public uint сounts { get; set; }
+        [Required]
+        public double price_c { get; set; }
+        [Required]
+        [MaxLength(40)]
+        public string name { get; set; }
+        [MaxLength(15)]
+        public string id_guarantee { get; set; }
+        [Required]
+        [MaxLength(25)]
+        public string manufacturer { get; set; }
 
         public static void Add()
         {

@@ -1,12 +1,14 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ClassLibrary.Entity
 {
   
     public class Shop
     {
-        public string shop_name { get; set; }
-        public string shop_adress { get; set; }
+        [MaxLength(35)]
+        public string name_store { get; set; }
+        [Required] public string address { get; set; }
     }
 
     

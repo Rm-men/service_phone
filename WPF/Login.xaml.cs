@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WPF.Admin;
 
 namespace WPF
 {
@@ -24,9 +25,12 @@ namespace WPF
             InitializeComponent();
         }
 
-        public void click()
+        public void click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Кнопка нажата");
+            main_w main_W = new main_w();
+            main_W.Show();
+            this.Close();
         }
     }
 }

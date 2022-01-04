@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace ClassLibrary.Entity
 {
     public class Client
     {
+        
+        public string id_client { get; set; }
+        [Required] [MaxLength(25)] public string name { get; set; }
+        [Required] [MaxLength(45)] public string family { get; set; }
+        [MaxLength(45)] public string patronomic { get; set; }
+        [Required] [MaxLength(15)] public string phone { get; set; }
+        [Required] [MaxLength(255)] public string email { get; set; }
 
-        public string client_account_number { get; set; }
-        public string client_name { get; set; }
-        public string client_family { get; set; }
-        public string client_patronomic { get; set; }
-        public string client_adress { get; set; } //почта
-        public string client_phone { get; set; }
         public static void Add_order()
         {
 

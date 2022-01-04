@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace ClassLibrary.Entity
 {
     class Employye_type
     {
-        public string employee_credentials { get; set; }
-        public string description_type_employee { get; set; }
-        public string duties { get; set; }
+        [MaxLength(15)]
+        public string id_employee_type { get; set; }
+        public string responsible_description { get; set; }
 
     }
 }

@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp1_net
+namespace WPF.Admin
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для main_w.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class main_w : Window
     {
-        public MainWindow()
+        public main_w()
         {
             InitializeComponent();
         }
