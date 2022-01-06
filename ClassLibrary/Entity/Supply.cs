@@ -3,15 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace ClassLibrary.Entity
 {
-    public class Supply
+    public class Supply //+
     {
-        public ulong id_supply { get; set; }
-
-        //private string supply_date { get; set; }
-        public double supply_price { get; set; }
-        public string supply_descr { get; set; }
+        public uint id_supply { get; set; } 
+        [Required]
+        public uint id_supply_order { get; set; }  
+        [Required][MaxLength(15)]
+        public string id_supplier { get; set; }  
+        [Required]
+        public DateTime date_supply { get; set; } 
+        [Required]
+        public double price_supply { get; set; } 
+        public string description_supply { get; set; } 
     }
 }

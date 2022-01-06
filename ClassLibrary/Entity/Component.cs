@@ -7,7 +7,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ClassLibrary.Entity
 {
-    public class Component
+
+    public class Component //+
     {
         [MaxLength(25)]
         public string id_component { get; set; }
@@ -17,7 +18,7 @@ namespace ClassLibrary.Entity
         [Required]
         public uint сounts { get; set; }
         [Required]
-        public double price_c { get; set; }
+        public double price_c { get; set; } //ДЕНЬГИ, ДЕНЬГИ
         [Required]
         [MaxLength(40)]
         public string name { get; set; }

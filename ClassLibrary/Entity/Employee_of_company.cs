@@ -7,15 +7,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ClassLibrary.Entity
 {
-    class Employee_of_company
+    class Employee_of_company //+
     {
         public string id_employee { get; set; }
         [MaxLength(8)] 
         [Required]
         public string id_employment_contract { get; set; }
-        [MaxLength(8)]
-        [Required]
-        public string emp_phone { get; set; }
         [MaxLength(4)]
         [Required]
         public string passport_serial { get; set; }
@@ -33,7 +30,7 @@ namespace ClassLibrary.Entity
         public string emp_phone_number { get; set; }
 
         [Required]
-        public string date_of_employment { get; set; } //Как дату то хранить
+        public DateTime date_of_employment { get; set; }
 
 
         [Required] 

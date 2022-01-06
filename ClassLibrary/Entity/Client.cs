@@ -9,8 +9,8 @@ namespace ClassLibrary.Entity
 {
     public class Client
     {
-        
-        public string id_client { get; set; }
+
+        public uint id_client { get; set; }
         [Required] [MaxLength(25)] public string name { get; set; }
         [Required] [MaxLength(45)] public string family { get; set; }
         [MaxLength(45)] public string patronomic { get; set; }
@@ -25,5 +25,10 @@ namespace ClassLibrary.Entity
         {
 
         }
+        public static void Get_fio()
+        {
+
+        }
+
     }
 }

@@ -11,7 +11,9 @@ namespace ClassLibrary.Entity
     {
         [MaxLength(10)]
         public string id_guarantee { get; set; }
-        public int guarantee_period_on_in_month { get; set; }
+        [Required]
+        public uint guarantee_period_on_in_month { get; set; }
+        [Required]
         public string garranty_conditions { get; set; }
         public static void Add()
         {

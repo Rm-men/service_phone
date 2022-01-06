@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ClassLibrary.Entity
 {
   
-    public class Shop
+    public class Shop //+
     {
         [MaxLength(35)]
         public string name_store { get; set; }

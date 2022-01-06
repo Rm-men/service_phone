@@ -7,20 +7,24 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ClassLibrary.Entity
 {
-    class Order_ 
+    class Order 
     {
         public uint id_order { get; set; }
         [Required] 
-        public string order_date { get; set; }
+        public DateTime order_date { get; set; }
         [Required]
         public string phone_number { get; set; }
         [MaxLength(255)]
         public string address { get; set; }
         [Required]
-        public uint id_client { get; set; }
+        public virtual Client Client { get; set; }
         [Required]
-        public string id_order_status { get; set; }
+        public virtual Order_status Order_status { get; set; }
 
+        public void GetInfo()
+        {
+
+        }
 
     }
 }
