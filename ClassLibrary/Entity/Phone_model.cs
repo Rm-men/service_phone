@@ -7,19 +7,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ClassLibrary.Entity
 {
-    public class Phone_model //+
+    public class Phone_model 
     {
-        [MaxLength(25)]
-        public string id_phone_model { get; set; }
-        [Required][MaxLength(35)]
-        public string name_model { get; set; }
-        [Required]
-        public string specifications { get; set; }
-        public double price_phone_model { get; set; } //ДЕНЬГИ,ДЕНЬГИ
-        [MaxLength(15)]
-        public string guarantee_phone_model { get; set; }
-        [Required]
-        [MaxLength(25)]
-        public string manufacturer { get; set; }
+        [MaxLength(25)]  public string Id_phone_model { get; set; }
+
+        [Required][MaxLength(35)] public string Name_model { get; set; }
+
+        [Required] public string Specifications { get; set; }
+
+        [Required] public decimal Price_phone_model { get; set; }
+
+        public virtual Guarantee Guarantee { get; set; }
+
+        [Required] public virtual Manufacturer Manufacturer { get; set; }
     }
 }

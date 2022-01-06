@@ -16,7 +16,7 @@ namespace ClassLibrary
         public DbSet<Employee_of_company> Employee_Of_Companies { get; set; }
         public DbSet<Employye_type> Employye_Types { get; set; }
         public DbSet<Guarantee> Guarantees { get; set; }
-        public DbSet<List_of_goods> List_Of_Goods { get; set; }
+        public DbSet<Product> Products { get; set; }
         public DbSet<List_of_supported_models> List_Of_Supported_Models { get; set; }
         public DbSet<Manufacturer> Manufacturers { get; set; }
         public DbSet<Order> Order { get; set; }

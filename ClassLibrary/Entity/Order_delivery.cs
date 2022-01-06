@@ -8,17 +8,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ClassLibrary.Entity
 {
-    class Order_delivery //+
+    public class Order_delivery
     {
         public uint id_order_delivery { get; set; }
-        [Required]
-        public DateTime time_delivery_start { get; set; }
-        [Required]
-        public DateTime time_delivery_compleate { get; set; }
-        [Required]
-        public uint id_order { get; set; }
-        [Required]
-        [MaxLength(8)]
-        public string id_employee  { get; set; }
+
+        [Required] public DateTime time_delivery_start { get; set; }
+
+        [Required] public DateTime time_delivery_compleate { get; set; }
+
+        [Required] public virtual Order Order { get; set; }
+
+        [Required] public virtual Employee_of_company Employee_Of_Company { get; set; }
     }
 }

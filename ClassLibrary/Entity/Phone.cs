@@ -7,11 +7,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ClassLibrary.Entity
 {
-    public class Phone //+
+    public class Phone
     {
-        [MaxLength(17)]
-        public string imei { get; set; }
-        [MaxLength(25)][Required]
-        public string id_phone_model { get; set; }
+        [MaxLength(17)] public string imei { get; set; }
+
+        [Required] public virtual Phone_model Phone_Model { get; set; }
     }
 }

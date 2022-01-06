@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ClassLibrary.Entity
 {
-    class Employye_type //+
+    public class Employye_type //+
     {
         [MaxLength(15)]
         public string id_employee_type { get; set; }

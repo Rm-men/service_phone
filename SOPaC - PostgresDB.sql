@@ -1,11 +1,11 @@
 CREATE TABLESPACE ts_fast LOCATION 'E:\SQL';
-CREATE DATABASE saling_orders_phones_components TABLESPACE ts_fast;
+CREATE DATABASE sopc TABLESPACE ts_fast;
 --CREATE SCHEMA main;
---SET SEARCH PATH = main
+--SET SEARCH_PATH = main;
 
 --! Проверить сходятся ли все вк по типам
 
-REVOKE ALL PRIVILEGES ON DATABASE Saling_orders_phones_components FROM PUBLIC;
+REVOKE ALL PRIVILEGES ON DATABASE sopc FROM PUBLIC;
 REVOKE ALL PRIVILEGES ON SCHEMA public FROM PUBLIC;
 
 	--Управляющий
@@ -33,6 +33,7 @@ NOT NULL CHECK(
 
 CREATE DOMAIN NUMB_PHONE AS VARCHAR(15)
 CHECK(	VALUE ~ '[^0-9]') ;
+
 CREATE DOMAIN CASH AS MONEY
 NOT NULL CHECK(	VALUE::numeric(10,2) >=0);
 
@@ -59,7 +60,7 @@ id_client   	  		  INT,
 id_order_status 		  VARCHAR(10),
 CONSTRAINT fk_ord_ordstat FOREIGN KEY (id_Order_status) REFERENCES Order_status (id_Order_status) ON DELETE RESTRICT ON UPDATE CASCADE,
 CONSTRAINT fk_ord_client  FOREIGN KEY (Id_Client) REFERENCES Client (Id_Client) ON DELETE NO ACTION ON UPDATE NO ACTION
-) TABLESPACE ts_fast;
+);  -- TABLESPACE ts_fast;
 
 CREATE TABLE Shop(
 name_store 				  VARCHAR(35) PRIMARY KEY,
@@ -86,11 +87,10 @@ emp_name   			    VARCHAR(30) NOT NULL,
 emp_patronymic 		    VARCHAR(30) NULL,
 emp_login               VARCHAR(50) CONSTRAINT nnud_emp_log NOT NULL UNIQUE DEFAULT NULL,
 emp_password            VARCHAR(50) CONSTRAINT nnud_emp_pasw NOT NULL UNIQUE DEFAULT NULL,
-CONSTRAINT fk_emp_store FOREIGN KEY(Name_store) REFERENCES Shop (Name_store) ON DELETE NO ACTION ON UPDATE CASCADE,
+CONSTRAINT fk_emp_store FOREIGN KEY(name_store) REFERENCES Shop (name_store) ON DELETE NO ACTION ON UPDATE CASCADE,
 CONSTRAINT fk_emp_type  FOREIGN KEY(Id_employee_type) REFERENCES Employee_type (Id_employee_type) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
---ПОДУМАТЬ С ДАТОЙ ОКОНЧАНИЯ ДОСТАВКИ
 CREATE TABLE Order_delivery( --FK order_, employee_of_company
 id_order_delivery 		  SERIAL PRIMARY KEY,
 time_delivery_start	      C_DATE,
@@ -122,45 +122,7 @@ garranty_conditions 	  TEXT NULL
 
 CREATE TABLE Manufacturer(
 id_manufacturer 		  VARCHAR(25) PRIMARY KEY,
-name 					  VARCHAR(150) UNIQUE
-);
-
-CREATE TABLE Phone_model( -- FK Guarantee, == List_of_supported_models, List_of_goods, Manufacturer
-id_phone_model 			         VARCHAR(25) PRIMARY KEY,
-name_model				         VARCHAR(35) NOT NULL,
-specifications 			         TEXT NOT NULL,
-price_phone_model 		         CASH,
-guarantee_phone_model 	         VARCHAR(15),
-manufacturer 			         VARCHAR(25),
-CONSTRAINT fk_phmod_guarante     FOREIGN KEY(Guarantee_Phone_model) REFERENCES Guarantee (ID_Guarantee) ON DELETE NO ACTION ON UPDATE RESTRICT,
-CONSTRAINT fk_phmod_manufacturer FOREIGN KEY(Manufacturer) REFERENCES Manufacturer (Id_Manufacturer) ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
-CREATE TABLE Phone( -- FK phone model
-imei 				        VARCHAR(17) PRIMARY KEY,
-id_phone_model  	        VARCHAR(25),
-CONSTRAINT fk_phone_phmodel FOREIGN KEY(Id_Phone_model) REFERENCES Phone_model(Id_Phone_model) ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
-CREATE TABLE Component( --FK - Guarantee, Manufacturer
-id_component   			        VARCHAR(25) PRIMARY KEY,
-type_c 			   			    VARCHAR(20) NOT NULL,
-сounts 		       			    COUNT,
-price_c 		       			CASH,
-name  		       			 	VARCHAR(40) NOT NULL,
-id_guarantee 	       			VARCHAR(15),
-manufacturer       			    VARCHAR(25) NOT NULL,,
-CONSTRAINT fk_comp_guarantee    FOREIGN KEY(id_guarantee) REFERENCES Guarantee (ID_Guarantee) ON DELETE RESTRICT ON UPDATE RESTRICT,
-CONSTRAINT fk_comp_manufacturer FOREIGN KEY(manufacturer) REFERENCES Manufacturer (Id_Manufacturer) ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
-CREATE TABLE List_of_supported_models( -- FK - phone model, component
-id_list_of_sup_models 	        VARCHAR (5) PRIMARY KEY,
-list_supmodel_name				VARCHAR(25),
-id_component 			        VARCHAR(25),
-id_phone_model 			        VARCHAR(25),
-CONSTRAINT  fk_lm_phone_model   FOREIGN KEY (Id_Phone_model) REFERENCES Phone_model (Id_Phone_model) ON DELETE NO ACTION ON UPDATE CASCADE,
-CONSTRAINT  fk_lm_component     FOREIGN KEY (Id_component) REFERENCES Component (Id_component) ON DELETE NO ACTION ON UPDATE CASCADE
+name 					  VARCHAR(150) UNIQUE NOT NULL
 );
 
 CREATE TABLE Supply_order( -- FK Employee_of_company
@@ -187,55 +149,98 @@ CONSTRAINT fk_supply_supplorder FOREIGN KEY (id_supply_order) REFERENCES Supply_
 CONSTRAINT fk_supply_supplier   FOREIGN KEY (Id_supplier) REFERENCES Supplier (Id_supplier) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE Supplied_goods( -- FK  supply, shop
-id_supplied_goods               VARCHAR(25) PRIMARY KEY,
+CREATE TABLE product( -- FK
+id_product			SERIAL PRIMARY KEY,
+price		        CASH,
+сounts 		        COUNT
+);
+
+CREATE TABLE supplied_product( -- FK  supply, shop
 name_store	 	                VARCHAR(35) NOT NULL,
 id_suppply		  	            INT,
+id_product						INT,
 count 							COUNT,
-CONSTRAINT fk_pa_shop       	FOREIGN KEY (name_store) REFERENCES Shop (Name_store) ON DELETE NO ACTION ON UPDATE CASCADE
+price							CASH,
+CONSTRAINT pk_supplied_product	PRIMARY KEY (id_suppply, id_product),
+CONSTRAINT fk_pa_shop       	FOREIGN KEY (name_store) REFERENCES Shop (Name_store) ON DELETE NO ACTION ON UPDATE CASCADE,
 CONSTRAINT fk_suplgod_Supply    FOREIGN KEY (Id_suppply) REFERENCES Supply (Id_supply) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE List_of_goods( -- FK - Supplied_goods
-id_list_of_goods 		VARCHAR (15) PRIMARY KEY,
-id_goods 				VARCHAR(25),
-CONSTRAINT fk_listgoods_store FOREIGN KEY (id_goods) REFERENCES Supplied_goods (id_supplied_goods) ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
-CREATE TABLE Position_in_order( --FK pushare_agreement, List_of_goods
+CREATE TABLE Position_in_order( --FK pushare_agreement, product
 id_position 			    VARCHAR (25),
 id_pushare_agreement 	    INT,
-id_list_of_goods			VARCHAR (15),
+id_product					INT,
 count_staf					COUNT,
 CONSTRAINT pk_pos_listgoods PRIMARY KEY (id_position, id_pushare_agreement),
-CONSTRAINT fk_pos_listgoods FOREIGN KEY (id_list_of_goods) REFERENCES List_of_goods(id_list_of_goods) ON DELETE RESTRICT ON UPDATE CASCADE,
-CONSTRAINT fk_pos_pushagree FOREIGN KEY (ID_Pushare_agreement) REFERENCES Pushare_agreement(ID_Pushare_agreement) ON DELETE CASCADE ON UPDATE CASCADE
+CONSTRAINT fk_pos_product   FOREIGN KEY (id_product) REFERENCES product(id_product) ON DELETE RESTRICT ON UPDATE CASCADE,
+CONSTRAINT fk_pos_pushagree FOREIGN KEY (id_pushare_agreement) REFERENCES Pushare_agreement(id_pushare_agreement) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+CREATE TABLE Phone_model( -- FK Guarantee, List_of_supported_models, product, Manufacturer
+id_phone_model 			         VARCHAR(25) PRIMARY KEY,
+name_model				         VARCHAR(35) NOT NULL,
+specifications 			         TEXT NOT NULL,
+guarantee_phone_model 	         VARCHAR(15),
+manufacturer 			         VARCHAR(25),
+id_product						 INT,
+CONSTRAINT fk_phmod_id_product   FOREIGN KEY(id_product) REFERENCES product (id_product) ON DELETE NO ACTION ON UPDATE RESTRICT,
+CONSTRAINT fk_phmod_guarante     FOREIGN KEY(Guarantee_Phone_model) REFERENCES Guarantee (ID_Guarantee) ON DELETE NO ACTION ON UPDATE RESTRICT,
+CONSTRAINT fk_phmod_manufacturer FOREIGN KEY(Manufacturer) REFERENCES Manufacturer (Id_Manufacturer) ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TABLE Phone( -- FK phone model
+imei 				        VARCHAR(17) PRIMARY KEY,
+id_phone_model  	        VARCHAR(25),
+CONSTRAINT fk_phone_phmodel FOREIGN KEY(Id_Phone_model) REFERENCES Phone_model(Id_Phone_model) ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TABLE Component( --FK - Guarantee, Manufacturer
+id_component   			        VARCHAR(25) PRIMARY KEY,
+type_c 			   			    VARCHAR(20) NOT NULL,
+сounts 		       			    COUNT,
+name  		       			 	VARCHAR(40) NOT NULL,
+id_guarantee 	       			VARCHAR(15),
+manufacturer       			    VARCHAR(25) NOT NULL,
+id_product						INT,
+CONSTRAINT fk_comp_id_product   FOREIGN KEY(id_product) REFERENCES product (id_product) ON DELETE NO ACTION ON UPDATE RESTRICT,
+CONSTRAINT fk_comp_guarantee    FOREIGN KEY(id_guarantee) REFERENCES Guarantee (ID_Guarantee) ON DELETE RESTRICT ON UPDATE RESTRICT,
+CONSTRAINT fk_comp_manufacturer FOREIGN KEY(manufacturer) REFERENCES Manufacturer (Id_Manufacturer) ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TABLE List_of_supported_models( -- FK - phone model, component
+id_list_of_sup_models 	        VARCHAR (5) PRIMARY KEY,
+list_supmodel_name				VARCHAR(25),
+id_component 			        VARCHAR(25),
+id_phone_model 			        VARCHAR(25),
+CONSTRAINT  fk_lm_phone_model   FOREIGN KEY (Id_Phone_model) REFERENCES Phone_model (Id_Phone_model) ON DELETE NO ACTION ON UPDATE CASCADE,
+CONSTRAINT  fk_lm_component     FOREIGN KEY (Id_component) REFERENCES Component (Id_component) ON DELETE NO ACTION ON UPDATE CASCADE
+);
+
 
 	-- Администратор --
 CREATE ROLE admin LOGIN;
 --ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE, TRIGGER, CONNECT, TEMPORARY, EXECUTE  ON TABLES TO admin;
-GRANT INSERT ON Client, Order_, Order_delivery, Order_status, Guarantee,Manufacturer, Pushare_agreement, Position_in_order, Phone_model, Component, List_of_supported_models, List_of_goods, Supplier,Supply, Supply_order, Supplied_goods TO manager;
-GRANT UPDATE ON Client, Order_, Order_delivery, Order_status, Guarantee,Manufacturer, Pushare_agreement, Position_in_order, Phone_model, Component, List_of_supported_models, List_of_goods, Supplier,Supply, Supply_order, Supplied_goods TO manager;
-GRANT DELETE ON Order_, Order_delivery, Order_status, Manufacturer, Position_in_order, Phone_model, Component, List_of_goods, List_of_supported_models,  Supply_order, Supplier, Supplied_goods TO manager;
+GRANT INSERT ON Client, Order_, Order_delivery, Order_status, Guarantee,Manufacturer, Pushare_agreement, Position_in_order, Phone_model, Component, List_of_supported_models, product, Supplier,Supply, Supply_order, supplied_product TO manager;
+GRANT UPDATE ON Client, Order_, Order_delivery, Order_status, Guarantee,Manufacturer, Pushare_agreement, Position_in_order, Phone_model, Component, List_of_supported_models, product, Supplier,Supply, Supply_order, supplied_product TO manager;
+GRANT DELETE ON Order_, Order_delivery, Order_status, Manufacturer, Position_in_order, Phone_model, Component, product, List_of_supported_models,  Supply_order, Supplier, supplied_product TO manager;
 
 	-- Менеджер --
 CREATE ROLE manager LOGIN;
 --! ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE ON TABLES TO manager;
-GRANT INSERT, UPDATE ON Client, Order_, Order_delivery, Order_status, Guarantee, Pushare_agreement, Position_in_order, Phone_model, Component, List_of_supported_models, List_of_goods, Supplier,Supply, Supply_order, Supplied_goods TO manager;
-GRANT DELETE ON Order_delivery, Position_in_order,List_of_goods, List_of_supported_models,  Supplier, Supplied_goods TO manager;
+GRANT INSERT, UPDATE ON Client, Order_, Order_delivery, Order_status, Guarantee, Pushare_agreement, Position_in_order, Phone_model, Component, List_of_supported_models, product, Supplier,Supply, Supply_order, supplied_product TO manager;
+GRANT DELETE ON Order_delivery, Position_in_order,product, List_of_supported_models,  Supplier, supplied_product TO manager;
 
 	-- Продавец --
 CREATE ROLE saler LOGIN;
 --ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE ON TABLES TO saler;
-GRANT INSERT ON Client, Order_, Order_delivery, Order_status, Pushare_agreement, Position_in_order, List_of_goods TO client;
-GRANT UPDATE ON Order_, Order_delivery, Order_status, Pushare_agreement, Position_in_order, List_of_goods TO client;
+GRANT INSERT ON Client, Order_, Order_delivery, Order_status, Pushare_agreement, Position_in_order, product TO client;
+GRANT UPDATE ON Order_, Order_delivery, Order_status, Pushare_agreement, Position_in_order, product TO client;
 GRANT DELETE ON Position_in_order TO client;
 
 	-- Клиент --
 CREATE ROLE client LOGIN;
 --ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO client;
-GRANT SELECT ON Guarantee, Shop, Phone_model, Component, List_of_goods, List_of_supported_models TO client;
+GRANT SELECT ON Guarantee, Shop, Phone_model, Component, product, List_of_supported_models TO client;
 
 
 create unlogged table client_import (doc json);

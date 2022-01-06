@@ -7,20 +7,21 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ClassLibrary.Entity
 {
-    public class Pushare_agreement //+
+    public class Pushare_agreement 
     {
         public uint id_pushare_agreement { get; set; }
-        [MaxLength(25)] [Required]
-        public string name_store { get; set; }
-        [Required]
-        public uint id_client { get; set; }
-        [Required]
-        public double all_cost   { get; set; } //ДНЕЬГИ,ДЕНЬГИ
-        [Required]
-        public DateTime pushare_agreement_date { get; set; }
-        [Required]
-        public uint id_order  { get; set; }
-        [Required]
-        public bool paid { get; set; }
+
+        [Required] public virtual Shop name_store { get; set; }
+
+        [Required] public virtual Client Client { get; set; }
+
+        [Required] public decimal All_cost { get; set; } 
+
+        [Required] public DateTime Pushare_agreement_date { get; set; }
+
+        [Required] public virtual Order Order { get; set; }
+
+        [Required] public bool paid { get; set; }
+
     }
 }

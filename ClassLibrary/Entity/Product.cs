@@ -7,11 +7,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ClassLibrary.Entity
 {
-    class List_of_goods //+
+    public class Product //+
     {
-        [MaxLength(15)]
-        public string id_list_of_goods { get; set; }
-        [MaxLength(25)][Required]
-        public string id_goods { get; set; } 
+        public uint Id_product { get; set; }
+
+        [Required] public decimal Price { get; set; }
+
+        [Required] public uint Count { get; set; } 
     }
 }
