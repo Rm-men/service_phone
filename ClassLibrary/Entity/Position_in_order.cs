@@ -9,14 +9,14 @@ namespace ClassLibrary.Entity
 {
     public class Position_in_order
     {
-        [MaxLength(25)]
-        public string id_position { get; set; } 
-        [Required]
-        public int id_pushare_agreement { get; set; } 
-        [MaxLength(15)][Required]
-        public string id_list_of_goods { get; set; } 
-        [Required]
-        public uint count_staf { get; set; } 
+        
+        public uint id_position { get; set; } 
+
+        [Required] public virtual Pushare_agreement Pushare_Agreement{ get; set; } 
+
+        [Required] public virtual Product Product { get; set; } 
+
+        [Required] public uint count_staf { get; set; } 
 
     }
 }

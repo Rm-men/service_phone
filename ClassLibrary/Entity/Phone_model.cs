@@ -15,10 +15,10 @@ namespace ClassLibrary.Entity
 
         [Required] public string Specifications { get; set; }
 
-        [Required] public decimal Price_phone_model { get; set; }
-
         public virtual Guarantee Guarantee { get; set; }
 
         [Required] public virtual Manufacturer Manufacturer { get; set; }
+
+        [Required] public virtual Product Product { get; set; } 
     }
 }

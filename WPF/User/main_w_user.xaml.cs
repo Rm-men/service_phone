@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace WPF.Admin
+namespace WPF.User
 {
     /// <summary>
-    /// Логика взаимодействия для main_w.xaml
+    /// Логика взаимодействия для main_w_user.xaml
     /// </summary>
-    public partial class main_w : Window
+    public partial class main_w_user : Window
     {
-        public main_w()
+        public main_w_user()
         {
             InitializeComponent();
         }

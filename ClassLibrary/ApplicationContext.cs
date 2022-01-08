@@ -9,7 +9,7 @@ using ClassLibrary.Entity;
 
 namespace ClassLibrary
 {
-    class ApplicationContext : DbContext
+    public class ApplicationContext : DbContext
     { 
         public DbSet<Client> Clients { get; set; }
         public DbSet<Component> Components{ get; set; }
@@ -27,7 +27,7 @@ namespace ClassLibrary
         public DbSet<Position_in_order> Position_In_Order { get; set; }
         public DbSet<Pushare_agreement> Pushare_Agreements { get; set; }
         public DbSet<Shop> Shops { get; set; }
-        public DbSet<Supplied_goods> Supplied_Goods { get; set; }
+        public DbSet<Supplied_product> Supplied_products { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Supply> Supplys { get; set; }
         public DbSet<Supply_order> Supply_Orders { get; set; }
@@ -37,8 +37,11 @@ namespace ClassLibrary
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=sale_phones;Username=postgres;Password=123");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=sopc;Username=postgres;Password=123");
         }
+
+
+        /*
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Не забыть прописать
@@ -51,12 +54,13 @@ namespace ClassLibrary
             modelBuilder.Entity<Employee_of_company>().HasIndex(p => p.passport_serial).IsUnique();
             modelBuilder.Entity<Employee_of_company>().HasIndex(p => p.emp_phone_number).IsUnique();
             modelBuilder.Entity<Manufacturer>().HasIndex(p => p.name).IsUnique();
-
         }
+        */
+        
         public static DbContextOptions<ApplicationContext> GetDb()
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-            return optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=sale_phones;Username=postgres;Password=123").Options;
+            return optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=sopc;Username=postgres;Password=123").Options;
         }
     }
 }

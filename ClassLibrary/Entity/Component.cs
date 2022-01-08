@@ -10,19 +10,19 @@ namespace ClassLibrary.Entity
 
     public class Component 
     {
-        [MaxLength(25)] public string id_component { get; set; }
+        [MaxLength(25)] public string Id_component { get; set; }
 
-        [Required] [MaxLength(20)] public string type_c { get; set; }
+        [Required] [MaxLength(20)] public string Type_c { get; set; }
 
-        [Required] public uint сounts { get; set; }
+        [Required] public uint Counts { get; set; }
 
-        [Required]  public decimal price_c { get; set; } 
-
-        [Required] [MaxLength(40)]  public string name { get; set; }
+        [Required] [MaxLength(40)]  public string Name { get; set; }
 
         public virtual Guarantee Guarantee { get; set; }
 
         [Required] public virtual Manufacturer Manufacturer { get; set; }
+
+        [Required] public virtual Product Product { get; set; }
 
         public static void Add()
         {

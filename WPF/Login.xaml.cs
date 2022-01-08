@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WPF.Admin;
+using WPF.User;
 
 namespace WPF
 {
@@ -27,10 +28,19 @@ namespace WPF
 
         public void click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Кнопка нажата");
-            main_w main_W = new main_w();
-            main_W.Show();
-            this.Close();
+            //MessageBox.Show("Кнопка нажата");
+            if (paswordbox.Password == "1")
+            {
+                main_w_admin main_W = new main_w_admin();
+                main_W.Show();
+                this.Close();
+            }
+            if (paswordbox.Password == "2")
+            {
+                main_w_user main_W_user = new main_w_user();
+                main_W_user.Show();
+                this.Close();
+            }
         }
     }
 }

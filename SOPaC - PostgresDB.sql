@@ -1,3 +1,8 @@
+CREATE TABLE Users(
+id serial,
+name text,
+age int);
+
 CREATE TABLESPACE ts_fast LOCATION 'E:\SQL';
 CREATE DATABASE sopc TABLESPACE ts_fast;
 --CREATE SCHEMA main;
@@ -149,7 +154,7 @@ CONSTRAINT fk_supply_supplorder FOREIGN KEY (id_supply_order) REFERENCES Supply_
 CONSTRAINT fk_supply_supplier   FOREIGN KEY (Id_supplier) REFERENCES Supplier (Id_supplier) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE product( -- FK
+CREATE TABLE Product( 
 id_product			SERIAL PRIMARY KEY,
 price		        CASH,
 сounts 		        COUNT
@@ -162,16 +167,19 @@ id_product						INT,
 count 							COUNT,
 price							CASH,
 CONSTRAINT pk_supplied_product	PRIMARY KEY (id_suppply, id_product),
-CONSTRAINT fk_pa_shop       	FOREIGN KEY (name_store) REFERENCES Shop (Name_store) ON DELETE NO ACTION ON UPDATE CASCADE,
+
+CONSTRAINT fk_pa_shop       	FOREIGN KEY (name_store) REFERENCES Shop (name_store) ON DELETE NO ACTION ON UPDATE CASCADE,
+CONSTRAINT fk_pa_idproduct      FOREIGN KEY (id_product) REFERENCES Product (id_product) ON DELETE NO ACTION ON UPDATE CASCADE,
 CONSTRAINT fk_suplgod_Supply    FOREIGN KEY (Id_suppply) REFERENCES Supply (Id_supply) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE Position_in_order( --FK pushare_agreement, product
-id_position 			    VARCHAR (25),
+id_position 			    SERIAL,
 id_pushare_agreement 	    INT,
 id_product					INT,
 count_staf					COUNT,
 CONSTRAINT pk_pos_listgoods PRIMARY KEY (id_position, id_pushare_agreement),
+
 CONSTRAINT fk_pos_product   FOREIGN KEY (id_product) REFERENCES product(id_product) ON DELETE RESTRICT ON UPDATE CASCADE,
 CONSTRAINT fk_pos_pushagree FOREIGN KEY (id_pushare_agreement) REFERENCES Pushare_agreement(id_pushare_agreement) ON DELETE CASCADE ON UPDATE CASCADE
 );

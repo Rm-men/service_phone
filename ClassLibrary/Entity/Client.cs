@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClassLibrary.Entity
 {
-    public class Client 
+    public class Client
     {
-
-        public uint id_client { get; set; }
+        [Column(Order = 1, TypeName = "serial")]
+        [Key] public uint id_client { get; set; }
 
         [Required] [MaxLength(25)] public string name { get; set; }
 
@@ -18,9 +19,9 @@ namespace ClassLibrary.Entity
 
         [MaxLength(45)] public string patronomic { get; set; }
 
-        [Required] [MaxLength(15)] public string phone { get; set; }
+        [MaxLength(15)] public string phone { get; set; }
 
-        [Required] [MaxLength(255)] public string email { get; set; }
+        [MaxLength(255)] public string email { get; set; }
 
 
         public static void Add_order()
