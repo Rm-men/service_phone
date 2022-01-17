@@ -1,77 +1,74 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Configuration;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using ClassLibrary;
+
+
+#nullable disable
 
 namespace TestConection
 {
-    
-
-    class Program
+    public partial class sopctContext : DbContext
     {
-        public static void Add()
+        class Program
         {
-            using (ApplicationContext ac = new ApplicationContext())
+            static void Main(string[] args)
             {
-                Teacher t1 = new Teacher { Name = "Дмитрий", Surname = "Первыйх", Age = 30, Subject = "Информатика" };
-                Student s1 = new Student { Name = "Даниил", Surname = "Вторинский", Age = 20, Grade = 1 };
-                Student s2 = new Student { Name = "Андрей", Surname = "Третьев", Age = 20, Grade = 1 };
-                t1.Students.Add(s1);
-                t1.Students.Add(s1);
-                ac.Teachers.AddRange(t1);
-                ac.SaveChanges();
-            } //Dispose автоматом
-        }
-        public static void Read()
-        {
-            using (ApplicationContext ac = new ApplicationContext())
-            {
-                List<Teacher> teachers = ac.Teachers.ToList();
-                foreach (Teacher t  in teachers)
+                using (sopctContext db = new sopctContext())
                 {
-                    Console.WriteLine($""+t);
+                    // получаем объекты из бд и выводим на консоль
+                    var users = db.Clients.ToList();
+                    Console.WriteLine("Список объектов:");
+                    foreach (Client c in users)
+                    {
+                        Console.WriteLine($"{c.Name}");
+                    }
                 }
-            } 
+                Console.ReadKey();
+            }
         }
-        static void Main(string[] args)
+        public sopctContext()
         {
-            Add();
+
         }
- 
-        public class ApplicationContext : DbContext
+
+        public sopctContext(DbContextOptions<sopctContext> options)
+            : base(options)
         {
-            public DbSet<Student> Students { get; set; } //навагационные свойства, через которые будет взаимодействие с дб
-            public DbSet<Teacher> Teachers { get; set; }
+        }
 
+        public virtual DbSet<Client> Clients { get; set; }
+        public virtual DbSet<Component> Components { get; set; }
+        public virtual DbSet<EmployeeOfCompany> EmployeeOfCompanies { get; set; }
+        public virtual DbSet<EmployeeType> EmployeeTypes { get; set; }
+        public virtual DbSet<Guarantee> Guarantees { get; set; }
+        public virtual DbSet<ListOfSupportedModel> ListOfSupportedModels { get; set; }
+        public virtual DbSet<Manufacturer> Manufacturers { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderDelivery> OrderDeliveries { get; set; }
+        public virtual DbSet<OrderStatus> OrderStatuses { get; set; }
+        public virtual DbSet<Phone> Phones { get; set; }
+        public virtual DbSet<PhoneModel> PhoneModels { get; set; }
+        public virtual DbSet<PositionInOrder> PositionInOrders { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<PushareAgreement> PushareAgreements { get; set; }
+        public virtual DbSet<Shop> Shops { get; set; }
+        public virtual DbSet<SuppliedProduct> SuppliedProducts { get; set; }
+        public virtual DbSet<Supplier> Suppliers { get; set; }
+        public virtual DbSet<Supply> Supplies { get; set; }
+        public virtual DbSet<SupplyOrder> SupplyOrders { get; set; }
 
-            public ApplicationContext()
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
             {
-                //Database.EnsureCreated();
-            }
-            public ApplicationContext(DbContextOptions<ApplicationContext> options)
-                : base(options)
-            {
-                //Database.EnsureCreated();
-            }
-            protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            {
-
-                if (!optionsBuilder.IsConfigured)
-                {
-                    //string consting = ConfigurationManager.AppSettings["ConnectionString"];
-                    //optionsBuilder.UseNpgsql(""+consting);
-                    optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=exp;Username=postgres;Password=123");
-                    optionsBuilder.EnableSensitiveDataLogging();
-                    /*
-                    Add-Migration Init - инициализация миграций
-                    Remove-Migration
-                    Update-Database - применение миграций
-                    */
-
-                }
-
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=sopct;Username=postgres;Password=123");
             }
         }
+
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

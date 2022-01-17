@@ -17,9 +17,7 @@ REVOKE ALL PRIVILEGES ON SCHEMA public FROM PUBLIC;
 CREATE ROLE main LOGIN SUPERUSER CONNECTION LIMIT 1 PASSWORD '123';
 -- Остальные после создания таблиц
 
-CREATE TYPE STATUSES AS ENUM (
-    'сформирован', 'отправлен со склада', 'в пути', 'прибыл в сортировочный центр', 'готов к выдаче', 'получено'
-);
+
 
 CREATE DOMAIN C_DATE AS DATE
 NOT NULL CHECK(VALUE <= CURRENT_DATE) DEFAULT CURRENT_DATE;
@@ -53,7 +51,7 @@ email             VARCHAR(255) NULL UNIQUE
 
 CREATE TABLE Order_status(
 id_order_status 		  VARCHAR(10) PRIMARY KEY,
-description_order_status  STATUSES
+description_order_status  Varchar(25)
 );
 
 CREATE TABLE Order_( -- FK client order_
@@ -139,7 +137,7 @@ CONSTRAINT fk_suplorder_emp    FOREIGN KEY (id_employee) REFERENCES Employee_of_
 
 CREATE TABLE Supplier(
 id_supplier 			VARCHAR(25) PRIMARY KEY,
-adress					TEXT,
+adress				    TEXT NOT NULL,
 name			  		VARCHAR(25) NOT NULL
 );
 
@@ -155,7 +153,7 @@ CONSTRAINT fk_supply_supplier   FOREIGN KEY (Id_supplier) REFERENCES Supplier (I
 );
 
 CREATE TABLE Product( 
-id_product			SERIAL PRIMARY KEY,
+id_product		    SERIAL PRIMARY KEY,
 price		        CASH,
 сounts 		        COUNT
 );
@@ -163,12 +161,11 @@ price		        CASH,
 CREATE TABLE supplied_product( -- FK  supply, shop
 name_store	 	                VARCHAR(35) NOT NULL,
 id_suppply		  	            INT,
-id_product						INT,
-count 							COUNT,
-price							CASH,
-CONSTRAINT pk_supplied_product	PRIMARY KEY (id_suppply, id_product),
-
-CONSTRAINT fk_pa_shop       	FOREIGN KEY (name_store) REFERENCES Shop (name_store) ON DELETE NO ACTION ON UPDATE CASCADE,
+id_product					    INT,
+count 						    COUNT,
+price						    CASH,
+CONSTRAINT pk_supplied_product  PRIMARY KEY (id_suppply, id_product),
+CONSTRAINT fk_pa_shop           FOREIGN KEY (name_store) REFERENCES Shop (name_store) ON DELETE NO ACTION ON UPDATE CASCADE,
 CONSTRAINT fk_pa_idproduct      FOREIGN KEY (id_product) REFERENCES Product (id_product) ON DELETE NO ACTION ON UPDATE CASCADE,
 CONSTRAINT fk_suplgod_Supply    FOREIGN KEY (Id_suppply) REFERENCES Supply (Id_supply) ON DELETE RESTRICT ON UPDATE CASCADE
 );
@@ -176,8 +173,8 @@ CONSTRAINT fk_suplgod_Supply    FOREIGN KEY (Id_suppply) REFERENCES Supply (Id_s
 CREATE TABLE Position_in_order( --FK pushare_agreement, product
 id_position 			    SERIAL,
 id_pushare_agreement 	    INT,
-id_product					INT,
-count_staf					COUNT,
+id_product				    INT,
+count_staf				    COUNT,
 CONSTRAINT pk_pos_listgoods PRIMARY KEY (id_position, id_pushare_agreement),
 
 CONSTRAINT fk_pos_product   FOREIGN KEY (id_product) REFERENCES product(id_product) ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -206,10 +203,10 @@ CREATE TABLE Component( --FK - Guarantee, Manufacturer
 id_component   			        VARCHAR(25) PRIMARY KEY,
 type_c 			   			    VARCHAR(20) NOT NULL,
 сounts 		       			    COUNT,
-name  		       			 	VARCHAR(40) NOT NULL,
-id_guarantee 	       			VARCHAR(15),
+name  		       			    VARCHAR(40) NOT NULL,
+id_guarantee 	       		    VARCHAR(15),
 manufacturer       			    VARCHAR(25) NOT NULL,
-id_product						INT,
+id_product					    INT,
 CONSTRAINT fk_comp_id_product   FOREIGN KEY(id_product) REFERENCES product (id_product) ON DELETE NO ACTION ON UPDATE RESTRICT,
 CONSTRAINT fk_comp_guarantee    FOREIGN KEY(id_guarantee) REFERENCES Guarantee (ID_Guarantee) ON DELETE RESTRICT ON UPDATE RESTRICT,
 CONSTRAINT fk_comp_manufacturer FOREIGN KEY(manufacturer) REFERENCES Manufacturer (Id_Manufacturer) ON DELETE RESTRICT ON UPDATE CASCADE
@@ -217,11 +214,11 @@ CONSTRAINT fk_comp_manufacturer FOREIGN KEY(manufacturer) REFERENCES Manufacture
 
 CREATE TABLE List_of_supported_models( -- FK - phone model, component
 id_list_of_sup_models 	        VARCHAR (5) PRIMARY KEY,
-list_supmodel_name				VARCHAR(25),
+list_supmodel_name			    VARCHAR(25),
 id_component 			        VARCHAR(25),
 id_phone_model 			        VARCHAR(25),
 CONSTRAINT  fk_lm_phone_model   FOREIGN KEY (Id_Phone_model) REFERENCES Phone_model (Id_Phone_model) ON DELETE NO ACTION ON UPDATE CASCADE,
-CONSTRAINT  fk_lm_component     FOREIGN KEY (Id_component) REFERENCES Component (Id_component) ON DELETE NO ACTION ON UPDATE CASCADE
+CONSTRAINT  fk_lm_component    	FOREIGN KEY (Id_component) REFERENCES Component (Id_component) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,36 +35,49 @@ namespace ClassLibrary
         public DbSet<Supply_order> Supply_Orders { get; set; }
         public ApplicationContext()
         {
+            //Database.EnsureCreated();
+        }
+        public ApplicationContext(DbContextOptions<ApplicationContext> options)
+            : base(options)
+        {
             Database.EnsureCreated();
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=sopc;Username=postgres;Password=123");
-        }
-
-
-        /*
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Не забыть прописать
-            modelBuilder.Entity<Client>().HasIndex(p => p.phone).IsUnique();
-            modelBuilder.Entity<Client>().HasIndex(p => p.email).IsUnique();
             modelBuilder.Entity<Employee_of_company>().HasIndex(p => p.emp_password).IsUnique();
             modelBuilder.Entity<Employee_of_company>().HasIndex(p => p.emp_login).IsUnique();
             modelBuilder.Entity<Employee_of_company>().HasIndex(p => p.id_employment_contract).IsUnique();
             modelBuilder.Entity<Employee_of_company>().HasIndex(p => p.passport_nubmer).IsUnique();
             modelBuilder.Entity<Employee_of_company>().HasIndex(p => p.passport_serial).IsUnique();
             modelBuilder.Entity<Employee_of_company>().HasIndex(p => p.emp_phone_number).IsUnique();
-            modelBuilder.Entity<Manufacturer>().HasIndex(p => p.name).IsUnique();
         }
-        */
-        
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+
+            if (!optionsBuilder.IsConfigured)
+            {
+                //string consting = ConfigurationManager.AppSettings["ConnectionString"];
+                //optionsBuilder.UseNpgsql(""+consting);
+                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=sopct;Username=postgres;Password=123");
+                optionsBuilder.EnableSensitiveDataLogging();
+                optionsBuilder.UseLazyLoadingProxies();
+                //Add-Migration Init - инициализация миграций
+                //Remove-Migration
+                //Update-Database - применение миграций
+                //scaffold - dbcontext "host=localhost;port=5432;database=sopct;username=postgres;password=123" npgsql.entityframeworkcore.postgresql
+                // - tables "author", "book", "author_book"
+                // npgsql.entityframeworkcore.postgresql
+            }
+
+        }
+
         public static DbContextOptions<ApplicationContext> GetDb()
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-            return optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=sopc;Username=postgres;Password=123").Options;
+            return optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=sopct;Username=postgres;Password=123").Options;
         }
     }
 }
 
- 
+
