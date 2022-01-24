@@ -1,44 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
-namespace ClassLibrary.Entity
+#nullable disable
+
+namespace ClassLibrary
 {
-
-    public class Component 
+    public partial class Component
     {
-        [MaxLength(25)] public string Id_component { get; set; }
-
-        [Required] [MaxLength(20)] public string Type_c { get; set; }
-
-        [Required] public uint Counts { get; set; }
-
-        [Required] [MaxLength(40)]  public string Name { get; set; }
-
-        public virtual Guarantee Guarantee { get; set; }
-
-        [Required] public virtual Manufacturer Manufacturer { get; set; }
-
-        [Required] public virtual Product Product { get; set; }
-
-        public static void Add()
+        public Component()
         {
-
+            ListOfSupportedModels = new HashSet<ListOfSupportedModel>();
         }
-        public static void Delete()
-        {
 
-        }
-        public static void Move()
-        {
+        public string IdComponent { get; set; }
+        public string TypeC { get; set; }
+        public int? Сounts { get; set; }
+        public string Name { get; set; }
+        public string IdGuarantee { get; set; }
+        public string Manufacturer { get; set; }
+        public int? IdProduct { get; set; }
 
-        }
-        public static void Info()
-        {
-
-        }
+        public virtual Guarantee IdGuaranteeNavigation { get; set; }
+        public virtual Product IdProductNavigation { get; set; }
+        public virtual Manufacturer ManufacturerNavigation { get; set; }
+        public virtual ICollection<ListOfSupportedModel> ListOfSupportedModels { get; set; }
     }
 }

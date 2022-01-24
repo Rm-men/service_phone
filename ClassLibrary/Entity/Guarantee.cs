@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
-namespace ClassLibrary.Entity
+#nullable disable
+
+namespace ClassLibrary
 {
-    public class Guarantee
+    public partial class Guarantee
     {
-        [MaxLength(10)]
-        public string id_guarantee { get; set; }
-        [Required]
-        public uint guarantee_period_on_in_month { get; set; }
-        [Required]
-        public string garranty_conditions { get; set; }
-        public static void Add()
+        public Guarantee()
         {
-
+            Components = new HashSet<Component>();
+            PhoneModels = new HashSet<PhoneModel>();
         }
+
+        public string IdGuarantee { get; set; }
+        public int? GarrantyPeriodInMonths { get; set; }
+        public string GarrantyConditions { get; set; }
+
+        public virtual ICollection<Component> Components { get; set; }
+        public virtual ICollection<PhoneModel> PhoneModels { get; set; }
     }
 }

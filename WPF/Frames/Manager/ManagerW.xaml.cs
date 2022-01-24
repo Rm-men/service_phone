@@ -10,19 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WPF.Admin
+namespace WPF.Frames.Manager
 {
     /// <summary>
-    /// Логика взаимодействия для p_products.xaml
+    /// Логика взаимодействия для ManagerW.xaml
     /// </summary>
-    public partial class p_products : Page
+    public partial class ManagerW : Window
     {
-        public p_products()
+        public ManagerW()
         {
             InitializeComponent();
         }
+
     }
 }

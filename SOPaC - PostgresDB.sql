@@ -151,11 +151,12 @@ description_supply 		        TEXT NULL,
 CONSTRAINT fk_supply_supplorder FOREIGN KEY (id_supply_order) REFERENCES Supply_order (id_supply_order) ON DELETE NO ACTION ON UPDATE CASCADE,
 CONSTRAINT fk_supply_supplier   FOREIGN KEY (Id_supplier) REFERENCES Supplier (Id_supplier) ON DELETE RESTRICT ON UPDATE CASCADE
 );
-
+--drop table  Product cascade;
 CREATE TABLE Product( 
-id_product		    SERIAL PRIMARY KEY,
+id_product		    VARCHAR(40) PRIMARY KEY,
+name                VARCHAR(40),
 price		        CASH,
-сounts 		        COUNT
+counts 		        COUNT
 );
 
 CREATE TABLE supplied_product( -- FK  supply, shop
@@ -202,7 +203,6 @@ CONSTRAINT fk_phone_phmodel FOREIGN KEY(Id_Phone_model) REFERENCES Phone_model(I
 CREATE TABLE Component( --FK - Guarantee, Manufacturer
 id_component   			        VARCHAR(25) PRIMARY KEY,
 type_c 			   			    VARCHAR(20) NOT NULL,
-сounts 		       			    COUNT,
 name  		       			    VARCHAR(40) NOT NULL,
 id_guarantee 	       		    VARCHAR(15),
 manufacturer       			    VARCHAR(25) NOT NULL,
@@ -220,6 +220,136 @@ id_phone_model 			        VARCHAR(25),
 CONSTRAINT  fk_lm_phone_model   FOREIGN KEY (Id_Phone_model) REFERENCES Phone_model (Id_Phone_model) ON DELETE NO ACTION ON UPDATE CASCADE,
 CONSTRAINT  fk_lm_component    	FOREIGN KEY (Id_component) REFERENCES Component (Id_component) ON DELETE NO ACTION ON UPDATE CASCADE
 );
+
+
+CREATE FUNCTION pickup_order() RETURNS TRIGGER AS
+$$
+    BEGIN
+        IF(EXISTS(
+                SELECT *
+                FROM order_ o
+                    JOIN Pushare_agreement Pa on OLD.id_Order = Pa.id_order
+                WHERE paid = true
+            )
+            OR EXISTS(
+                SELECT *
+                FROM order_ o
+                    JOIN order_status os on OLD.id_Order_status = os.id_order_status
+                WHERE NEW.description_Order_status != 'получено'
+            )
+        )
+        THEN
+            RETURN NEW;
+        ELSE
+            RAISE EXCEPTION 'Заказ не оплачен';
+        end if;
+    end;
+$$
+language plpgsql;
+CREATE TRIGGER t_pickup_order
+    BEFORE UPDATE ON order_
+    FOR EACH  STATEMENT EXECUTE  FUNCTION pickup_order();
+	
+    --Не разрешать заказывать товара больше, чем есть на складе
+    --НЕ РАБОТАЕТ
+--DROP FUNCTION no_more_count() CASCADE;
+/*
+CREATE FUNCTION no_more_count() RETURNS TRIGGER AS
+$$
+BEGIN-- Это работает только на апдейт
+    IF (NEW.count_staf<=( --нужно сравнить количество товара
+        SELECT counts FROM component --вытащенного из компонента
+        WHERE id_product = ( --идентификатор которого это
+            SELECT id_product FROM Product) -- ид товара
+        --соответствующий изменяемому/добавляемому товару
+        ))
+    THEN RETURN NEW;
+        ELSE RAISE EXCEPTION 'Количество заказанного товара превосходит складского запаса';
+    END IF;
+END
+$$
+language plpgsql;
+CREATE TRIGGER t_no_more_count
+ BEFORE INSERT OR UPDATE ON position_in_order
+ FOR EACH ROW EXECUTE FUNCTION no_more_count();
+*/
+
+    -- При добавлении компонента он автоматически заносится в список товаров
+CREATE OR REPLACE FUNCTION insert_c_to_products_b() RETURNS TRIGGER AS
+$$
+BEGIN
+    INSERT INTO product
+        VALUES (NEW.id_component, NEW.name , 99, 1);
+    RETURN NEW;
+END
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER t_insert_c_to_products_b
+BEFORE INSERT ON Component
+FOR EACH ROW EXECUTE FUNCTION insert_c_to_products_b();
+
+
+CREATE OR REPLACE FUNCTION insert_c_to_products_a() RETURNS TRIGGER AS
+$$
+BEGIN
+    UPDATE Component
+        SET NEW.id_product = (
+            SELECT id_product FROM product
+                WHERE name = NEW.name
+            )
+        WHERE name = NEW.name;
+    RETURN NEW;
+END
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER t_insert_c_to_products_a
+AFTER INSERT ON Component
+FOR EACH ROW EXECUTE FUNCTION insert_c_to_products_a();
+
+
+
+    -- При добавлении модели телефона он автоматически заносится в список товаров
+CREATE OR REPLACE FUNCTION insert_p_to_list() RETURNS TRIGGER AS
+$$
+BEGIN
+    INSERT INTO product
+    VALUES (DEFAULT, new.id_component);
+    RETURN NEW;
+END
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER t_insert_p_to_list
+AFTER INSERT ON Phone_model
+FOR EACH ROW EXECUTE FUNCTION insert_p_to_list();
+
+    --Не разрешать забирать заказ, если он не оплачен
+--DROP FUNCTION pickup_order() CASCADE;
+CREATE FUNCTION pickup_order() RETURNS TRIGGER AS
+$$
+    BEGIN
+        IF(EXISTS(
+                SELECT *
+                FROM order_ o
+                    JOIN Pushare_agreement Pa on OLD.id_Order = Pa.id_order
+                WHERE paid = true
+            )
+            OR EXISTS(
+                SELECT *
+                FROM order_
+                WHERE NEW.id_Order_status != 's_6'
+            )
+        )
+        THEN
+            RETURN NEW;
+        ELSE
+            RAISE EXCEPTION 'Заказ не оплачен, нельзя получить';
+        end if;
+    end
+$$
+LANGUAGE plpgsql;
+CREATE TRIGGER t_pickup_order
+    BEFORE UPDATE ON order_
+    FOR EACH ROW EXECUTE  FUNCTION pickup_order();
 
 
 	-- Администратор --
@@ -250,33 +380,3 @@ GRANT SELECT ON Guarantee, Shop, Phone_model, Component, product, List_of_suppor
 
 create unlogged table client_import (doc json);
 \copy client_import from 'E:\_Ychybus\2 курс\УД\__Проект\Clients.json'
-
-
-CREATE FUNCTION pickup_order() RETURNS TRIGGER AS
-$body$
-    BEGIN
-        IF(EXISTS(
-                SELECT *
-                FROM order_ o
-                    JOIN Pushare_agreement Pa on OLD.id_Order = Pa.id_order
-                WHERE paid = true
-            )
-            OR EXISTS(
-                SELECT *
-                FROM order_ o
-                    JOIN order_status os on OLD.id_Order_status = os.id_order_status
-                WHERE NEW.description_Order_status != 'получено'
-            )
-        )
-        THEN
-            RETURN NEW;
-        ELSE
-            RAISE EXCEPTION 'Заказ не оплачен';
-        end if;
-    end;
-$body$
-language plpgsql;
-CREATE TRIGGER t_pickup_order
-    BEFORE UPDATE ON order_
-    FOR EACH  STATEMENT EXECUTE  FUNCTION pickup_order();
-

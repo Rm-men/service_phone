@@ -1,18 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
-namespace ClassLibrary.Entity
+#nullable disable
+
+namespace ClassLibrary
 {
-    public class Product //+
+    public partial class Product
     {
-        public uint Id_product { get; set; }
+        public Product()
+        {
+            Components = new HashSet<Component>();
+            PhoneModels = new HashSet<PhoneModel>();
+            PositionInOrders = new HashSet<PositionInOrder>();
+            SuppliedProducts = new HashSet<SuppliedProduct>();
+        }
 
-        [Required] public decimal Price { get; set; }
+        public int IdProduct { get; set; }
+        public decimal Price { get; set; }
+        public string Name { get; set; }
+        public int? Сounts { get; set; }
 
-        [Required] public uint Count { get; set; } 
+
+        public virtual ICollection<Component> Components { get; set; }
+        public virtual ICollection<PhoneModel> PhoneModels { get; set; }
+        public virtual ICollection<PositionInOrder> PositionInOrders { get; set; }
+        public virtual ICollection<SuppliedProduct> SuppliedProducts { get; set; }
     }
 }

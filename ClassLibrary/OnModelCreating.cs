@@ -1,70 +1,15 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-
-
-#nullable disable
+using System.Text;
+using System.Threading.Tasks;
+using ClassLibrary;
 
 namespace ClassLibrary
 {
-    public partial class sopctContext : DbContext
+    public partial class ApplicationContext : DbContext
     {
-        class Program
-        {
-            static void Main(string[] args)
-            {
-                using (sopctContext db = new sopctContext())
-                {
-                    // получаем объекты из бд и выводим на консоль
-                    var users = db.Clients.ToList();
-                    Console.WriteLine("Список объектов:");
-                    foreach (Client c  in users)
-                    {
-                        Console.WriteLine($"{c.Name}");
-                    }
-                }
-                Console.ReadKey();
-            }
-        }
-        public sopctContext()
-        {
-        }
-
-        public sopctContext(DbContextOptions<sopctContext> options)
-            : base(options)
-        {
-        }
-
-        public virtual DbSet<Client> Clients { get; set; }
-        public virtual DbSet<Component> Components { get; set; }
-        public virtual DbSet<EmployeeOfCompany> EmployeeOfCompanies { get; set; }
-        public virtual DbSet<EmployeeType> EmployeeTypes { get; set; }
-        public virtual DbSet<Guarantee> Guarantees { get; set; }
-        public virtual DbSet<ListOfSupportedModel> ListOfSupportedModels { get; set; }
-        public virtual DbSet<Manufacturer> Manufacturers { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<OrderDelivery> OrderDeliveries { get; set; }
-        public virtual DbSet<OrderStatus> OrderStatuses { get; set; }
-        public virtual DbSet<Phone> Phones { get; set; }
-        public virtual DbSet<PhoneModel> PhoneModels { get; set; }
-        public virtual DbSet<PositionInOrder> PositionInOrders { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<PushareAgreement> PushareAgreements { get; set; }
-        public virtual DbSet<Shop> Shops { get; set; }
-        public virtual DbSet<SuppliedProduct> SuppliedProducts { get; set; }
-        public virtual DbSet<Supplier> Suppliers { get; set; }
-        public virtual DbSet<Supply> Supplies { get; set; }
-        public virtual DbSet<SupplyOrder> SupplyOrders { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=sopct;Username=postgres;Password=123");
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -166,13 +111,13 @@ namespace ClassLibrary
 
                 entity.ToTable("employee_of_company");
 
-                entity.HasIndex(e => e.EmpLogin, "employee_of_company_emp_login_key")
+                entity.HasIndex(e => e.Login, "employee_of_company_emp_login_key")
                     .IsUnique();
 
-                entity.HasIndex(e => e.EmpPassword, "employee_of_company_emp_password_key")
+                entity.HasIndex(e => e.Password, "employee_of_company_emp_password_key")
                     .IsUnique();
 
-                entity.HasIndex(e => e.EmpPhoneNumber, "employee_of_company_emp_phone_number_key")
+                entity.HasIndex(e => e.PhoneNumber, "employee_of_company_emp_phone_number_key")
                     .IsUnique();
 
                 entity.HasIndex(e => e.IdEmploymentContract, "employee_of_company_id_employment_contract_key")
@@ -194,33 +139,33 @@ namespace ClassLibrary
                     .HasColumnType("date")
                     .HasColumnName("date_of_employment");
 
-                entity.Property(e => e.EmpFamily)
+                entity.Property(e => e.Family)
                     .IsRequired()
                     .HasMaxLength(30)
                     .HasColumnName("emp_family");
 
-                entity.Property(e => e.EmpLogin)
+                entity.Property(e => e.Login)
                     .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName("emp_login")
                     .HasDefaultValueSql("NULL::character varying");
 
-                entity.Property(e => e.EmpName)
+                entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(30)
                     .HasColumnName("emp_name");
 
-                entity.Property(e => e.EmpPassword)
+                entity.Property(e => e.Password)
                     .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName("emp_password")
                     .HasDefaultValueSql("NULL::character varying");
 
-                entity.Property(e => e.EmpPatronymic)
+                entity.Property(e => e.Patronymic)
                     .HasMaxLength(30)
                     .HasColumnName("emp_patronymic");
 
-                entity.Property(e => e.EmpPhoneNumber)
+                entity.Property(e => e.PhoneNumber)
                     .IsRequired()
                     .HasMaxLength(11)
                     .HasColumnName("emp_phone_number");
@@ -531,13 +476,19 @@ namespace ClassLibrary
 
                 entity.ToTable("product");
 
-                entity.Property(e => e.IdProduct).HasColumnName("id_product");
+                entity.Property(e => e.IdProduct)
+                    .HasMaxLength(40)
+                    .HasColumnName("id_product");
+
+                entity.Property(e => e.Counts).HasColumnName("counts");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(40)
+                    .HasColumnName("name");
 
                 entity.Property(e => e.Price)
                     .HasColumnType("money")
                     .HasColumnName("price");
-
-                entity.Property(e => e.Сounts).HasColumnName("сounts");
             });
 
             modelBuilder.Entity<PushareAgreement>(entity =>
@@ -717,8 +668,7 @@ namespace ClassLibrary
             });
 
             OnModelCreatingPartial(modelBuilder);
-        }
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        }
     }
 }

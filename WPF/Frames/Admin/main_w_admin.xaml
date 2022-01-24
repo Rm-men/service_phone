@@ -1,0 +1,32 @@
+﻿<Window x:Class="WPF.Frames.Admin.main_w_admin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF.Frames.Admin"
+        mc:Ignorable="d"
+        Title="Администратор" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="b_product_list" Grid.Column="0"  Height="30" Margin="5 0 5 0" Click="B_To_Product">Товары</Button>
+        <Button x:Name="b_employees" Grid.Column="1"  Height="30" Margin="5 0 5 0" >Пользователи</Button>
+        <Button x:Name="b_supplies" Grid.Column="2"  Height="30" Margin="5 0 5 0" >Поставки</Button>
+        <Button x:Name="b_заказы" Grid.Column="3"  Height="30" Margin="5 0 5 0" >Заказы</Button>
+        <Frame x:Name="View_frame" Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="6"  Margin="5 0 5 0" Background="#FFEEEEEE">
+            
+        </Frame>
+    </Grid>
+</Window>

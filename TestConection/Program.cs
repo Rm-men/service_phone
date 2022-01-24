@@ -3,72 +3,61 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ClassLibrary;
+using System.Collections.Generic;
 
 
 #nullable disable
 
 namespace TestConection
 {
-    public partial class sopctContext : DbContext
+
+    class Program
     {
-        class Program
+        private static ApplicationContext db2 = Context.Db2;
+
+        static void Main(string[] args)
         {
-            static void Main(string[] args)
+            /*
+            List<Client> cl_sp = db2.Clients.ToList();
+            Console.WriteLine("Список объектов:");
+            //Client cl1 = new Client { Email = "1gagaga@mail.da", Family = "Пупкин", Name = "Вася" };
+            //cl_sp.Add(cl1);
+            //db.Clients.Add(cl1);
+            //cl_sp[0].Name = "Y";
+            foreach (Client c in cl_sp)
             {
-                using (sopctContext db = new sopctContext())
+                Console.WriteLine($"{c.Name}");
+            }
+            db2.SaveChanges();
+            */
+
+            //using (ApplicationContext db = new ApplicationContext())
+            {
+                // получаем объекты из бд и выводим на консоль
+                
+                Console.WriteLine("Введите логин:");
+                string log = Console.ReadLine();
+                Console.WriteLine("Введите пароль:");
+                string pasw = Console.ReadLine();
+                EmployeeOfCompany employee = EmployeeOfCompany.GetEmployee(log, pasw);
+                if (employee != null)
                 {
-                    // получаем объекты из бд и выводим на консоль
-                    var users = db.Clients.ToList();
-                    Console.WriteLine("Список объектов:");
-                    foreach (Client c in users)
-                    {
-                        Console.WriteLine($"{c.Name}");
-                    }
+                    Console.WriteLine($"Вы - " + employee.Name);
                 }
-                Console.ReadKey();
+                else Console.WriteLine($"Введен не правильный логин или пароль");
+                
+                /*
+                List<ClientInfo> cl = Client.GetClientInfo("89091234567");
+                Console.WriteLine(cl);
+                    db.SaveChanges();
+                }
+                
+                */
+
+         
             }
+            Console.ReadKey();
         }
-        public sopctContext()
-        {
-
-        }
-
-        public sopctContext(DbContextOptions<sopctContext> options)
-            : base(options)
-        {
-        }
-
-        public virtual DbSet<Client> Clients { get; set; }
-        public virtual DbSet<Component> Components { get; set; }
-        public virtual DbSet<EmployeeOfCompany> EmployeeOfCompanies { get; set; }
-        public virtual DbSet<EmployeeType> EmployeeTypes { get; set; }
-        public virtual DbSet<Guarantee> Guarantees { get; set; }
-        public virtual DbSet<ListOfSupportedModel> ListOfSupportedModels { get; set; }
-        public virtual DbSet<Manufacturer> Manufacturers { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<OrderDelivery> OrderDeliveries { get; set; }
-        public virtual DbSet<OrderStatus> OrderStatuses { get; set; }
-        public virtual DbSet<Phone> Phones { get; set; }
-        public virtual DbSet<PhoneModel> PhoneModels { get; set; }
-        public virtual DbSet<PositionInOrder> PositionInOrders { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<PushareAgreement> PushareAgreements { get; set; }
-        public virtual DbSet<Shop> Shops { get; set; }
-        public virtual DbSet<SuppliedProduct> SuppliedProducts { get; set; }
-        public virtual DbSet<Supplier> Suppliers { get; set; }
-        public virtual DbSet<Supply> Supplies { get; set; }
-        public virtual DbSet<SupplyOrder> SupplyOrders { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=sopct;Username=postgres;Password=123");
-            }
-        }
-
-
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
+
 }

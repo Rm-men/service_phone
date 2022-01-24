@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
-namespace ClassLibrary.Entity
+#nullable disable
+
+namespace ClassLibrary
 {
-    public class Phone
+    public partial class Phone
     {
-        [MaxLength(17)] public string imei { get; set; }
+        public string Imei { get; set; }
+        public string IdPhoneModel { get; set; }
 
-        [Required] public virtual Phone_model Phone_Model { get; set; }
+        public virtual PhoneModel IdPhoneModelNavigation { get; set; }
     }
 }

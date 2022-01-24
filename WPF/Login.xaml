@@ -3,24 +3,37 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+       WindowStartupLocation="CenterScreen"
         xmlns:local="clr-namespace:WPF"
         mc:Ignorable="d"
-        Title="Авторизация" Height="200" Width="300" Topmost="True">
-    <Grid Margin="0,0,0,0" x:Name="start_window" Background="#FFFBFBFB" >
+        Title="Авторизация" Height="300" Width="250" Topmost="True">
+    <Grid Margin="0,0,0,0" x:Name="start_window" Background="#FFFBFBFB" Cursor="Hand" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="0,5*"/>
             <RowDefinition Height="0,5*"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="8*"/>
         </Grid.RowDefinitions>
-        <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">Пользователь</Label>
-        <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">Пароль:</Label>
-        <ComboBox x:Name="cbbPersonnel" Grid.Column="1" Grid.Row="0" Height="30" Margin="5 0 5 0"  SelectedItem="{}"/>
-        <PasswordBox x:Name="paswordbox"  Grid.Column="1" Grid.Row="1"  Height="30" Margin="5 0 5 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" PasswordChar="*" ></PasswordBox>
-        <Button x:Name="btnLogin" Grid.Column="1" Grid.Row="3" Content="Войти в систему" Height="30" Margin="5 0 5 0" Command="{}" Click="click" />
-  
+        <TextBox x:Name="TextBoxLogin" Grid.Row="0" Grid.Column="1" Height="30" Margin="5 0 5 0"  materialDesign:HintAssist.Hint="Введите логин" 
+                 Padding="2 5 0 0 " FontSize="18"  Cursor="IBeam" />
+
+        <PasswordBox x:Name="paswordbox"  Grid.Column="1" Grid.Row="1"  Height="30" Margin="5 0 5 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" PasswordChar="*"
+                     materialDesign:HintAssist.Hint="Введите пароль" FontSize="18"  Cursor="IBeam"></PasswordBox>
+        <Button x:Name="btnLogin" Grid.Column="1" Grid.Row="2" Content="Войти в систему" Height="30" Margin="5 0 5 0" Command="{}" Click="click" />
+        <!--ОТЛАДОЧНАЯ ЧАСТЬ-->
+        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal">
+            <Button x:Name="btnLoginADM"  Content="А" Height="30" Width="45" Margin="5 0 5 0" Command="{}" Click="Clikc_a"/>
+            <Button x:Name="btnLoginMNG"  Content="М" Height="30" Width="45" Margin="5 0 5 0" Command="{}" Click="Click_m"  />
+            <Button x:Name="btnLoginUSR"  Content="U" Height="30" Width="45" Margin="5 0 5 0" Command="{}" Click="Click_u"  />
+           
+
+        </StackPanel>
+
     </Grid>
 </Window>

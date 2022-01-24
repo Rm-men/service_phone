@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WPF.Admin
+namespace WPF.Frames.Admin
 {
     /// <summary>
-    /// Логика взаимодействия для main_w.xaml
+    /// Логика взаимодействия для P_users.xaml
     /// </summary>
-    public partial class main_w_admin : Window
+    public partial class P_users : Page
     {
-        public main_w_admin()
+        public P_users()
         {
             InitializeComponent();
         }

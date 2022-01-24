@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
+#nullable disable
 
-namespace ClassLibrary.Entity
+namespace ClassLibrary
 {
-    public class Manufacturer
+    public partial class Manufacturer
     {
-        public string id_manufacturer { get; set; }
-        [Required] [MaxLength(150)]
-        public string name { get; set; }
+        public Manufacturer()
+        {
+            Components = new HashSet<Component>();
+            PhoneModels = new HashSet<PhoneModel>();
+        }
+
+        public string IdManufacturer { get; set; }
+        public string Name { get; set; }
+
+        public virtual ICollection<Component> Components { get; set; }
+        public virtual ICollection<PhoneModel> PhoneModels { get; set; }
     }
 }

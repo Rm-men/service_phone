@@ -1,41 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ClassLibrary.Entity
+#nullable disable
+
+namespace ClassLibrary
 {
-    public class Client
+    public partial class Client
     {
-        [Column(Order = 1, TypeName = "serial")]
-        [Key] public uint id_client { get; set; }
-
-        [Required] [MaxLength(25)] public string name { get; set; }
-
-        [Required] [MaxLength(45)] public string family { get; set; }
-
-        [MaxLength(45)] public string patronomic { get; set; }
-
-        [MaxLength(15)] public string phone { get; set; }
-
-        [MaxLength(255)] public string email { get; set; }
-
-
-        public static void Add_order()
+        private static ApplicationContext db = Context.Db;
+        public Client()
         {
-
-        }
-        public static void Pay_order()
-        {
-
-        }
-        public static void Get_fio()
-        {
-
+            Orders = new HashSet<Order>();
+            PushareAgreements = new HashSet<PushareAgreement>();
         }
 
+        public int IdClient { get; set; }
+        public string Name { get; set; }
+        public string Family { get; set; }
+        public string Patronymic { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<PushareAgreement> PushareAgreements { get; set; }
+        public static List<ClientInfo> GetClientInfo(string Telefon) //Клиент не связан с адресом. В листе хранится клиент с разными адресами
+        {
+            return (from c in db.Clients
+                    where c.Phone == Telefon
+                    select new ClientInfo()
+                    {
+                        IdClient = c.IdClient,
+                        Family = c.Family,
+                        Name = c.Name,
+                        Patronymic = c.Patronymic,
+                        Email = c.Email
+                    }).ToList();
+        }
+        public class ClientInfo
+        {
+            public int IdClient { get; set; }
+            public string Name { get; set; }
+            public string Family { get; set; }
+            public string Patronymic { get; set; }
+            public string Phone { get; set; }
+            public string Email { get; set; }
+        }
     }
 }

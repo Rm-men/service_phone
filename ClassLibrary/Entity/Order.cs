@@ -1,35 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
-namespace ClassLibrary.Entity
+#nullable disable
+
+namespace ClassLibrary
 {
-    public class Order  
+    public partial class Order
     {
-        public uint id_order { get; set; }
-
-        [Required] 
-        public DateTime order_date { get; set; }
-
-        [Required]
-        public string phone_number { get; set; }
-
-        [MaxLength(255)]
-        public string address { get; set; }
-
-        [Required]
-        public virtual Client Client { get; set; }
-
-        [Required]
-        public virtual Order_status Order_status { get; set; }
-
-        public void GetInfo()
+        public Order()
         {
-
+            OrderDeliveries = new HashSet<OrderDelivery>();
+            PushareAgreements = new HashSet<PushareAgreement>();
         }
 
+        public int IdOrder { get; set; }
+        public DateTime OrderDate { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Address { get; set; }
+        public int? IdClient { get; set; }
+        public string IdOrderStatus { get; set; }
+
+        public virtual Client IdClientNavigation { get; set; }
+        public virtual OrderStatus IdOrderStatusNavigation { get; set; }
+        public virtual ICollection<OrderDelivery> OrderDeliveries { get; set; }
+        public virtual ICollection<PushareAgreement> PushareAgreements { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 #nullable disable
 
@@ -7,6 +8,8 @@ namespace ClassLibrary
 {
     public partial class EmployeeOfCompany
     {
+        private static ApplicationContext db = Context.Db2;
+
         public EmployeeOfCompany()
         {
             OrderDeliveries = new HashSet<OrderDelivery>();
@@ -19,18 +22,25 @@ namespace ClassLibrary
         public decimal PassportNubmer { get; set; }
         public string Adres { get; set; }
         public string IdEmployeeType { get; set; }
-        public string EmpPhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public DateTime DateOfEmployment { get; set; }
         public string NameStore { get; set; }
-        public string EmpFamily { get; set; }
-        public string EmpName { get; set; }
-        public string EmpPatronymic { get; set; }
-        public string EmpLogin { get; set; }
-        public string EmpPassword { get; set; }
+        public string Family { get; set; }
+        public string Name { get; set; }
+        public string Patronymic { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
 
         public virtual EmployeeType IdEmployeeTypeNavigation { get; set; }
         public virtual Shop NameStoreNavigation { get; set; }
         public virtual ICollection<OrderDelivery> OrderDeliveries { get; set; }
         public virtual ICollection<SupplyOrder> SupplyOrders { get; set; }
+
+
+        public static EmployeeOfCompany GetEmployee(string Login, string Password)
+        {
+            return db.EmployeeOfCompanies.Where(a => a.Login == Login && a.Password == Password).FirstOrDefault();
+        }
+
     }
 }
