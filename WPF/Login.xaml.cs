@@ -1,21 +1,9 @@
-﻿using System;
+﻿using ClassLibrary;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using WPF.Frames.User;
-using WPF.Frames.Manager;
+using WPF.Frames;
 using WPF.Frames.Admin;
-using ClassLibrary;
-using System.Security.Cryptography;
+using WPF.Frames.Manager;
 
 namespace WPF
 {
@@ -24,8 +12,8 @@ namespace WPF
     /// </summary>
     public partial class Window1 : Window
     {
-        public ICollection<EmployeeOfCompany> Employees { get; set; }
 
+        public ICollection<EmployeeOfCompany> Employees { get; set; }
 
         public Window1()
         {
@@ -42,20 +30,15 @@ namespace WPF
             ManagerW mngr_W = new ManagerW();
             mngr_W.Show();
             this.Close();
-        }        
-        public void Enter_user()
-        {
-            UserW user_W = new UserW();
-            user_W.Show();
-            this.Close();
         }
+
 
         public void click(object sender, RoutedEventArgs e)
         {
-        #warning Пароли не захэшированы!
 
-            EmployeeOfCompany employee = EmployeeOfCompany.GetEmployee(TextBoxLogin.Text.Trim(), paswordbox.Password.Trim());
-            if (employee != null)
+            EmployeeOfCompany employee = EmployeeOfCompany.Get(TextBoxLogin.Text.Trim(), paswordbox.Password.Trim());
+            if (employee == null) employee = EmployeeOfCompany.Get(TextBoxLogin.Text.Trim(), EmployeeOfCompany.GetHash(paswordbox.Password.Trim()));
+            if (employee != null)  
             {
                 switch (employee.IdEmployeeType)
                 {
@@ -66,24 +49,14 @@ namespace WPF
                         Enter_manager();
                         break;
                     default:
-                        Enter_user();
+                        MessageBox.Show("Ошибка, недопустимая роль: " + employee.IdEmployeeType);
                         break;
                 }
- 
             }
             else MessageBox.Show("Введен неверный логин или пароль.");
-        }
-        private static string GetHash(string input)
-        {
-            byte[] data = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(input));
-            var sBuilder = new StringBuilder();
-            for (int i = 0; i < data.Length; i++)
-            {
-                sBuilder.Append(data[i].ToString("x2"));
-            }
-            return sBuilder.ToString();
-        }
 
+
+        }
         private void Clikc_a(object sender, RoutedEventArgs e)
         {
             Enter_admin();
@@ -94,9 +67,5 @@ namespace WPF
             Enter_manager();
         }
 
-        private void Click_u(object sender, RoutedEventArgs e)
-        {
-            Enter_user();
-        }
     }
 }

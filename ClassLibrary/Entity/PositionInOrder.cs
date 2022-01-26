@@ -7,12 +7,11 @@ namespace ClassLibrary
 {
     public partial class PositionInOrder
     {
-        public int IdPosition { get; set; }
+        public string IdPosition { get; set; }
         public int IdPushareAgreement { get; set; }
         public int? IdProduct { get; set; }
         public int? CountStaf { get; set; }
 
-        public virtual Product IdProductNavigation { get; set; }
         public virtual PushareAgreement IdPushareAgreementNavigation { get; set; }
     }
 }

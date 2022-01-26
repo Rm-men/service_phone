@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ClassLibrary
 {
-    public partial class PhoneModel
+    public partial class PhoneModel 
     {
         public PhoneModel()
         {
@@ -21,7 +21,6 @@ namespace ClassLibrary
         public int? IdProduct { get; set; }
 
         public virtual Guarantee GuaranteePhoneModelNavigation { get; set; }
-        public virtual Product IdProductNavigation { get; set; }
         public virtual Manufacturer ManufacturerNavigation { get; set; }
         public virtual ICollection<ListOfSupportedModel> ListOfSupportedModels { get; set; }
         public virtual ICollection<Phone> Phones { get; set; }

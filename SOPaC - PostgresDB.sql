@@ -82,18 +82,20 @@ passport_serial 	    NUMERIC(4) NOT NULL UNIQUE,
 passport_nubmer 	    NUMERIC(6) NOT NULL UNIQUE,
 adres 				    TEXT,
 id_employee_type 	    VARCHAR(15),
-emp_phone_number 	    NUMB_PHONE NOT NULL UNIQUE,
+phone_number 	        NUMB_PHONE NOT NULL UNIQUE,
 date_of_employment 	    DATE NOT NULL,
 name_store 			    VARCHAR(35),
-emp_family 			    VARCHAR(30) NOT NULL,
-emp_name   			    VARCHAR(30) NOT NULL,
-emp_patronymic 		    VARCHAR(30) NULL,
-emp_login               VARCHAR(50) CONSTRAINT nnud_emp_log NOT NULL UNIQUE DEFAULT NULL,
-emp_password            VARCHAR(50) CONSTRAINT nnud_emp_pasw NOT NULL UNIQUE DEFAULT NULL,
+family 			        VARCHAR(30) NOT NULL,
+name   			        VARCHAR(30) NOT NULL,
+patronymic 		        VARCHAR(30) NULL,
+login                   VARCHAR(64) CONSTRAINT nnud_emp_log NOT NULL UNIQUE DEFAULT NULL,
+password                VARCHAR(64) CONSTRAINT nnud_emp_pasw NOT NULL UNIQUE DEFAULT NULL,
 CONSTRAINT fk_emp_store FOREIGN KEY(name_store) REFERENCES Shop (name_store) ON DELETE NO ACTION ON UPDATE CASCADE,
 CONSTRAINT fk_emp_type  FOREIGN KEY(Id_employee_type) REFERENCES Employee_type (Id_employee_type) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
+
+/*
 CREATE TABLE Order_delivery( --FK order_, employee_of_company
 id_order_delivery 		  SERIAL PRIMARY KEY,
 time_delivery_start	      C_DATE,
@@ -103,7 +105,7 @@ id_employee 			  VARCHAR(8),
 CONSTRAINT fk_orddeliv_order FOREIGN KEY (Id_Order) REFERENCES Order_(Id_Order) ON DELETE CASCADE ON UPDATE CASCADE,
 CONSTRAINT fk_orddeliv_empl FOREIGN KEY (id_employee) REFERENCES Employee_of_company(id_employee) ON DELETE RESTRICT ON UPDATE CASCADE
 );
-
+ */
 CREATE TABLE Pushare_agreement( --FK shop, client, order
 id_pushare_agreement	    SERIAL PRIMARY KEY,
 name_store 			        VARCHAR(35),
@@ -174,7 +176,7 @@ CONSTRAINT fk_suplgod_Supply    FOREIGN KEY (Id_suppply) REFERENCES Supply (Id_s
 CREATE TABLE Position_in_order( --FK pushare_agreement, product
 id_position 			    SERIAL,
 id_pushare_agreement 	    INT,
-id_product				    INT,
+id_product				    varchar(40),
 count_staf				    COUNT,
 CONSTRAINT pk_pos_listgoods PRIMARY KEY (id_position, id_pushare_agreement),
 
@@ -351,32 +353,3 @@ CREATE TRIGGER t_pickup_order
     BEFORE UPDATE ON order_
     FOR EACH ROW EXECUTE  FUNCTION pickup_order();
 
-
-	-- Администратор --
-CREATE ROLE admin LOGIN;
---ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE, TRIGGER, CONNECT, TEMPORARY, EXECUTE  ON TABLES TO admin;
-GRANT INSERT ON Client, Order_, Order_delivery, Order_status, Guarantee,Manufacturer, Pushare_agreement, Position_in_order, Phone_model, Component, List_of_supported_models, product, Supplier,Supply, Supply_order, supplied_product TO manager;
-GRANT UPDATE ON Client, Order_, Order_delivery, Order_status, Guarantee,Manufacturer, Pushare_agreement, Position_in_order, Phone_model, Component, List_of_supported_models, product, Supplier,Supply, Supply_order, supplied_product TO manager;
-GRANT DELETE ON Order_, Order_delivery, Order_status, Manufacturer, Position_in_order, Phone_model, Component, product, List_of_supported_models,  Supply_order, Supplier, supplied_product TO manager;
-
-	-- Менеджер --
-CREATE ROLE manager LOGIN;
---! ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE ON TABLES TO manager;
-GRANT INSERT, UPDATE ON Client, Order_, Order_delivery, Order_status, Guarantee, Pushare_agreement, Position_in_order, Phone_model, Component, List_of_supported_models, product, Supplier,Supply, Supply_order, supplied_product TO manager;
-GRANT DELETE ON Order_delivery, Position_in_order,product, List_of_supported_models,  Supplier, supplied_product TO manager;
-
-	-- Продавец --
-CREATE ROLE saler LOGIN;
---ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE ON TABLES TO saler;
-GRANT INSERT ON Client, Order_, Order_delivery, Order_status, Pushare_agreement, Position_in_order, product TO client;
-GRANT UPDATE ON Order_, Order_delivery, Order_status, Pushare_agreement, Position_in_order, product TO client;
-GRANT DELETE ON Position_in_order TO client;
-
-	-- Клиент --
-CREATE ROLE client LOGIN;
---ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO client;
-GRANT SELECT ON Guarantee, Shop, Phone_model, Component, product, List_of_supported_models TO client;
-
-
-create unlogged table client_import (doc json);
-\copy client_import from 'E:\_Ychybus\2 курс\УД\__Проект\Clients.json'

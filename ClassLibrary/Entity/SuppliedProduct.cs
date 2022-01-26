@@ -13,7 +13,6 @@ namespace ClassLibrary
         public int? Count { get; set; }
         public decimal Price { get; set; }
 
-        public virtual Product IdProductNavigation { get; set; }
         public virtual Supply IdSuppplyNavigation { get; set; }
         public virtual Shop NameStoreNavigation { get; set; }
     }

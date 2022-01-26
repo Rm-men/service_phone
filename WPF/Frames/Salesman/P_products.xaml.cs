@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClassLibrary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF.Frames.Salesman;
 
 namespace WPF.Frames.Manager
 {
@@ -23,6 +25,26 @@ namespace WPF.Frames.Manager
         public P_products()
         {
             InitializeComponent();
+            Refresh();
+        }
+
+        public  void Bto_list(object sender, RoutedEventArgs e)
+        {
+            Refresh();
+        }
+
+        public void To_update(Product rp)
+        {
+            spase.Navigate(new P_prosucts_update(rp, this));
+        }
+
+        public  void Bto_add(object sender, RoutedEventArgs e)
+        {
+            spase.Navigate(new P_products_add(this));
+        }
+        public  void Refresh()
+        {
+            spase.Navigate(new P_products_table(this));
         }
     }
 }

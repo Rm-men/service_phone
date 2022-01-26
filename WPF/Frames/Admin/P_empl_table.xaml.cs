@@ -10,18 +10,21 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ClassLibrary;
 
-namespace WPF.Frames.User
+namespace WPF.Frames.Admin
 {
     /// <summary>
-    /// Логика взаимодействия для main_w_user.xaml
+    /// Логика взаимодействия для P_table_Empl.xaml
     /// </summary>
-    public partial class UserW : Window
+    public partial class P_empl_table : Page
     {
-        public UserW()
+        public P_empl_table()
         {
             InitializeComponent();
+            dataGrid.ItemsSource = EmployeeOfCompany.GetInfo();
         }
     }
 }

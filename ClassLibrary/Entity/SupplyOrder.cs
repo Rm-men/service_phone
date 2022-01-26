@@ -16,7 +16,6 @@ namespace ClassLibrary
         public DateTime DateSuplOrder { get; set; }
         public string IdEmployee { get; set; }
 
-        public virtual EmployeeOfCompany IdEmployeeNavigation { get; set; }
         public virtual ICollection<Supply> Supplies { get; set; }
     }
 }

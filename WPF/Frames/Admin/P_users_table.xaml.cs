@@ -12,15 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ClassLibrary;
 
-namespace WPF.Frames.Manager
+namespace WPF.Frames.Admin
 {
     /// <summary>
-    /// Логика взаимодействия для P_orders.xaml
+    /// Логика взаимодействия для P_users_table.xaml
     /// </summary>
-    public partial class P_orders : Page
+    public partial class P_users_table : Page
     {
-        public P_orders()
+        public P_users_table()
         {
             InitializeComponent();
         }

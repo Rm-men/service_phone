@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-       WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterScreen"
         xmlns:local="clr-namespace:WPF"
         mc:Ignorable="d"
         Title="Авторизация" Height="300" Width="250" Topmost="True">
@@ -27,12 +27,9 @@
                      materialDesign:HintAssist.Hint="Введите пароль" FontSize="18"  Cursor="IBeam"></PasswordBox>
         <Button x:Name="btnLogin" Grid.Column="1" Grid.Row="2" Content="Войти в систему" Height="30" Margin="5 0 5 0" Command="{}" Click="click" />
         <!--ОТЛАДОЧНАЯ ЧАСТЬ-->
-        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal">
-            <Button x:Name="btnLoginADM"  Content="А" Height="30" Width="45" Margin="5 0 5 0" Command="{}" Click="Clikc_a"/>
-            <Button x:Name="btnLoginMNG"  Content="М" Height="30" Width="45" Margin="5 0 5 0" Command="{}" Click="Click_m"  />
-            <Button x:Name="btnLoginUSR"  Content="U" Height="30" Width="45" Margin="5 0 5 0" Command="{}" Click="Click_u"  />
-           
-
+        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" >
+            <Button x:Name="btnLoginADM"  Content="А" Height="30" Width="50" Margin="5 0 5 0" Command="{}" Click="Clikc_a"  FontSize="10" />
+            <Button x:Name="btnLoginMNG"  Content="М" Height="30" Width="50" Margin="5 0 5 0" Command="{}" Click="Click_m"  FontSize="10" />
         </StackPanel>
 
     </Grid>

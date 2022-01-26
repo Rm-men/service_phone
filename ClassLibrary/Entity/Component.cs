@@ -21,7 +21,6 @@ namespace ClassLibrary
         public int? IdProduct { get; set; }
 
         public virtual Guarantee IdGuaranteeNavigation { get; set; }
-        public virtual Product IdProductNavigation { get; set; }
         public virtual Manufacturer ManufacturerNavigation { get; set; }
         public virtual ICollection<ListOfSupportedModel> ListOfSupportedModels { get; set; }
     }

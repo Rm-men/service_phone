@@ -10,7 +10,6 @@ namespace ClassLibrary
 {
     public partial class ApplicationContext : DbContext
     {
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Russian_Russia.1251");
@@ -92,11 +91,6 @@ namespace ClassLibrary
                     .HasForeignKey(d => d.IdGuarantee)
                     .HasConstraintName("fk_comp_guarantee");
 
-                entity.HasOne(d => d.IdProductNavigation)
-                    .WithMany(p => p.Components)
-                    .HasForeignKey(d => d.IdProduct)
-                    .HasConstraintName("fk_comp_id_product");
-
                 entity.HasOne(d => d.ManufacturerNavigation)
                     .WithMany(p => p.Components)
                     .HasForeignKey(d => d.Manufacturer)
@@ -111,22 +105,22 @@ namespace ClassLibrary
 
                 entity.ToTable("employee_of_company");
 
-                entity.HasIndex(e => e.Login, "employee_of_company_emp_login_key")
-                    .IsUnique();
-
-                entity.HasIndex(e => e.Password, "employee_of_company_emp_password_key")
-                    .IsUnique();
-
-                entity.HasIndex(e => e.PhoneNumber, "employee_of_company_emp_phone_number_key")
-                    .IsUnique();
-
                 entity.HasIndex(e => e.IdEmploymentContract, "employee_of_company_id_employment_contract_key")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.Login, "employee_of_company_login_key")
                     .IsUnique();
 
                 entity.HasIndex(e => e.PassportNubmer, "employee_of_company_passport_nubmer_key")
                     .IsUnique();
 
                 entity.HasIndex(e => e.PassportSerial, "employee_of_company_passport_serial_key")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.Password, "employee_of_company_password_key")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.Phone, "employee_of_company_phone_number_key")
                     .IsUnique();
 
                 entity.Property(e => e.IdEmployee)
@@ -142,33 +136,7 @@ namespace ClassLibrary
                 entity.Property(e => e.Family)
                     .IsRequired()
                     .HasMaxLength(30)
-                    .HasColumnName("emp_family");
-
-                entity.Property(e => e.Login)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .HasColumnName("emp_login")
-                    .HasDefaultValueSql("NULL::character varying");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .HasColumnName("emp_name");
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .HasColumnName("emp_password")
-                    .HasDefaultValueSql("NULL::character varying");
-
-                entity.Property(e => e.Patronymic)
-                    .HasMaxLength(30)
-                    .HasColumnName("emp_patronymic");
-
-                entity.Property(e => e.PhoneNumber)
-                    .IsRequired()
-                    .HasMaxLength(11)
-                    .HasColumnName("emp_phone_number");
+                    .HasColumnName("family");
 
                 entity.Property(e => e.IdEmployeeType)
                     .HasMaxLength(15)
@@ -177,6 +145,17 @@ namespace ClassLibrary
                 entity.Property(e => e.IdEmploymentContract)
                     .HasMaxLength(8)
                     .HasColumnName("id_employment_contract");
+
+                entity.Property(e => e.Login)
+                    .IsRequired()
+                    .HasMaxLength(64)
+                    .HasColumnName("login")
+                    .HasDefaultValueSql("NULL::character varying");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(30)
+                    .HasColumnName("name");
 
                 entity.Property(e => e.NameStore)
                     .HasMaxLength(35)
@@ -189,6 +168,21 @@ namespace ClassLibrary
                 entity.Property(e => e.PassportSerial)
                     .HasPrecision(4)
                     .HasColumnName("passport_serial");
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(64)
+                    .HasColumnName("password")
+                    .HasDefaultValueSql("NULL::character varying");
+
+                entity.Property(e => e.Patronymic)
+                    .HasMaxLength(30)
+                    .HasColumnName("patronymic");
+
+                entity.Property(e => e.Phone)
+                    .IsRequired()
+                    .HasMaxLength(11)
+                    .HasColumnName("phone_number");
 
                 entity.HasOne(d => d.IdEmployeeTypeNavigation)
                     .WithMany(p => p.EmployeeOfCompanies)
@@ -346,11 +340,6 @@ namespace ClassLibrary
                     .HasColumnType("date")
                     .HasColumnName("time_delivery_start");
 
-                entity.HasOne(d => d.IdEmployeeNavigation)
-                    .WithMany(p => p.OrderDeliveries)
-                    .HasForeignKey(d => d.IdEmployee)
-                    .HasConstraintName("fk_orddeliv_empl");
-
                 entity.HasOne(d => d.IdOrderNavigation)
                     .WithMany(p => p.OrderDeliveries)
                     .HasForeignKey(d => d.IdOrder)
@@ -430,11 +419,6 @@ namespace ClassLibrary
                     .HasForeignKey(d => d.GuaranteePhoneModel)
                     .HasConstraintName("fk_phmod_guarante");
 
-                entity.HasOne(d => d.IdProductNavigation)
-                    .WithMany(p => p.PhoneModels)
-                    .HasForeignKey(d => d.IdProduct)
-                    .HasConstraintName("fk_phmod_id_product");
-
                 entity.HasOne(d => d.ManufacturerNavigation)
                     .WithMany(p => p.PhoneModels)
                     .HasForeignKey(d => d.Manufacturer)
@@ -456,12 +440,8 @@ namespace ClassLibrary
 
                 entity.Property(e => e.CountStaf).HasColumnName("count_staf");
 
-                entity.Property(e => e.IdProduct).HasColumnName("id_product");
-
-                entity.HasOne(d => d.IdProductNavigation)
-                    .WithMany(p => p.PositionInOrders)
-                    .HasForeignKey(d => d.IdProduct)
-                    .HasConstraintName("fk_pos_product");
+                entity.Property(e => e.IdProduct).HasColumnName("id_product")
+                     .HasMaxLength(40);
 
                 entity.HasOne(d => d.IdPushareAgreementNavigation)
                     .WithMany(p => p.PositionInOrders)
@@ -572,12 +552,6 @@ namespace ClassLibrary
                     .HasColumnType("money")
                     .HasColumnName("price");
 
-                entity.HasOne(d => d.IdProductNavigation)
-                    .WithMany(p => p.SuppliedProducts)
-                    .HasForeignKey(d => d.IdProduct)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_pa_idproduct");
-
                 entity.HasOne(d => d.IdSuppplyNavigation)
                     .WithMany(p => p.SuppliedProducts)
                     .HasForeignKey(d => d.IdSuppply)
@@ -660,15 +634,11 @@ namespace ClassLibrary
                 entity.Property(e => e.IdEmployee)
                     .HasMaxLength(10)
                     .HasColumnName("id_employee");
-
-                entity.HasOne(d => d.IdEmployeeNavigation)
-                    .WithMany(p => p.SupplyOrders)
-                    .HasForeignKey(d => d.IdEmployee)
-                    .HasConstraintName("fk_suplorder_emp");
             });
 
             OnModelCreatingPartial(modelBuilder);
-
         }
+
+
     }
 }

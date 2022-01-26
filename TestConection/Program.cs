@@ -10,14 +10,12 @@ using System.Collections.Generic;
 
 namespace TestConection
 {
-
     class Program
     {
         private static ApplicationContext db2 = Context.Db2;
 
-        static void Main(string[] args)
+        public static void View_al()
         {
-            /*
             List<Client> cl_sp = db2.Clients.ToList();
             Console.WriteLine("Список объектов:");
             //Client cl1 = new Client { Email = "1gagaga@mail.da", Family = "Пупкин", Name = "Вася" };
@@ -28,36 +26,49 @@ namespace TestConection
             {
                 Console.WriteLine($"{c.Name}");
             }
-            db2.SaveChanges();
-            */
-
-            //using (ApplicationContext db = new ApplicationContext())
+            Context.Db2.SaveChanges();
+        }
+        public static void Login()
+        {
+            Console.WriteLine("Введите логин:");
+            string log = Console.ReadLine();
+            Console.WriteLine("Введите пароль:");
+            string pasw = Console.ReadLine();
+            EmployeeOfCompany employee = EmployeeOfCompany.Get(log, pasw);
+            if (employee != null)
             {
-                // получаем объекты из бд и выводим на консоль
-                
-                Console.WriteLine("Введите логин:");
-                string log = Console.ReadLine();
-                Console.WriteLine("Введите пароль:");
-                string pasw = Console.ReadLine();
-                EmployeeOfCompany employee = EmployeeOfCompany.GetEmployee(log, pasw);
-                if (employee != null)
-                {
-                    Console.WriteLine($"Вы - " + employee.Name);
-                }
-                else Console.WriteLine($"Введен не правильный логин или пароль");
-                
-                /*
-                List<ClientInfo> cl = Client.GetClientInfo("89091234567");
-                Console.WriteLine(cl);
-                    db.SaveChanges();
-                }
-                
-                */
-
-         
+                Console.WriteLine($"Вы - " + employee.Name);
             }
+            else Console.WriteLine($"Введен не правильный логин или пароль");
+        }
+        public static void View_products()
+        {
+            List<Product> pr = db2.Products.ToList();
+            Console.WriteLine("Список продуктов:");
+            foreach (Product prd in pr)
+            {
+                Console.WriteLine($"{prd.IdProduct}, {prd.Name}, {prd.Price}, {prd.Counts}");
+            }
+        }
+        public static void AddManuf()
+        {
+            List<Manufacturer> pr = db2.Manufacturers.ToList();
+            Console.WriteLine("Список производителей:");
+            foreach (Manufacturer prd in pr)
+            {
+                Console.WriteLine($"{prd.IdManufacturer}, {prd.Name}");
+            }
+            Console.Write("Ид: ");
+            string id = Console.ReadLine();
+            Console.Write("Имя: ");
+            string Name = Console.ReadLine();
+            db2.Manufacturers.Add(new Manufacturer { IdManufacturer = id, Name = Name });
+            Context.Db2.SaveChanges();
+        }
+        static void Main(string[] args)
+        {
+            AddManuf();
             Console.ReadKey();
         }
     }
-
 }

@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ClassLibrary;
+using WPF.Frames;
 
 namespace WPF.Frames.Admin
 {
@@ -23,6 +25,16 @@ namespace WPF.Frames.Admin
         public P_employees()
         {
             InitializeComponent();
+            spase.Navigate(new P_empl_table());
+        }
+
+        public void Bto_list(object sender, RoutedEventArgs e)
+        {
+            spase.Navigate(new P_empl_table());
+        }
+        public void Bto_add(object sender, RoutedEventArgs e)
+        {
+            spase.Navigate(new P_empl_add());
         }
     }
 }

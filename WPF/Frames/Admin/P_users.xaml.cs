@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ClassLibrary;
 
 namespace WPF.Frames.Admin
 {
@@ -23,6 +24,7 @@ namespace WPF.Frames.Admin
         public P_users()
         {
             InitializeComponent();
+            //dataGrid.ItemsSource = Client.GetInfo();
         }
     }
 }

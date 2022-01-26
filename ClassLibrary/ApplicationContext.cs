@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -9,6 +11,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ClassLibrary
 {
+
     public partial class ApplicationContext : DbContext
     {
         public virtual DbSet<Client> Clients { get; set; }
@@ -54,7 +57,10 @@ namespace ClassLibrary
                 //Add-Migration Init - инициализация миграций
                 //Remove-Migration
                 //Update-Database - применение миграций
-                Scaffold-DbContext "host=localhost;port=5432;database=sopct;username=postgres;password=123" npgsql.entityframeworkcore.postgresql -Tables "product"
+
+                Scaffold-DbContext "host=localhost;port=5432;database=sopct;username=postgres;password=123" npgsql.entityframeworkcore.postgresql
+                -Tables "product"
+
                 // - tables "author", "book", "author_book"
                 // npgsql.entityframeworkcore.postgresql
                 */
@@ -66,5 +72,6 @@ namespace ClassLibrary
         public ApplicationContext() : base()
         {
         }
+
     }
 }
