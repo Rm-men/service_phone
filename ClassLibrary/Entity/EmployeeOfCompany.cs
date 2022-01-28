@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ClassLibrary
 {
-    public partial class EmployeeOfCompany : A_Human
+    public partial class EmployeeOfCompany
     {
         public string IdEmployee { get; set; }
         public string IdEmploymentContract { get; set; }
@@ -13,6 +13,7 @@ namespace ClassLibrary
         public decimal PassportNubmer { get; set; }
         public string Adres { get; set; }
         public string IdEmployeeType { get; set; }
+        public string Phone { get; set; }
         public DateTime DateOfEmployment { get; set; }
         public string NameStore { get; set; }
         public string Login { get; set; }

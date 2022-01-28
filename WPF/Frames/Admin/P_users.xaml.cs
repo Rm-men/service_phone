@@ -24,6 +24,7 @@ namespace WPF.Frames.Admin
         public P_users()
         {
             InitializeComponent();
+            spase.Navigate(new P_users_table());
             //dataGrid.ItemsSource = Client.GetInfo();
         }
     }

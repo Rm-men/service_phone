@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ClassLibrary
 {
-    public partial class Client : A_Human
+    public partial class Client
     {
         public Client()
         {
@@ -14,6 +14,10 @@ namespace ClassLibrary
         }
 
         public int IdClient { get; set; }
+        public string Name { get; set; }
+        public string Family { get; set; }
+        public string Patronymic { get; set; }
+        public string Phone { get; set; }
         public string Email { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }

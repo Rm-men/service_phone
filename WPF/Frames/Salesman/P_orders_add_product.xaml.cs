@@ -12,19 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ClassLibrary;
 
-namespace WPF.Frames.Admin
+namespace WPF.Frames.Salesman
 {
     /// <summary>
-    /// Логика взаимодействия для P_users_table.xaml
+    /// Логика взаимодействия для P_orders_add_product.xaml
     /// </summary>
-    public partial class P_users_table : Page
+    public partial class P_orders_add_product : Page
     {
-        public P_users_table()
+        public P_orders_add_product()
         {
             InitializeComponent();
-            dataGrid.ItemsSource = Client.GetInfo();
         }
     }
 }

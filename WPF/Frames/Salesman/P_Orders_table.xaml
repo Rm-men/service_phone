@@ -29,10 +29,10 @@
                 <DataGridTextColumn Header="ID заказа"       Binding="{Binding Path=IdOrder}"/>
                 <DataGridTextColumn Header="Статус заказа" Binding="{Binding Path=IdOrderStatus}"/>
                 <DataGridTextColumn Header="Номер телефона" Binding="{Binding Path=PhoneNumber}"/>
-                <DataGridTextColumn Header="ID клиента"       Binding="{Binding Path=IdClient}"/>
+                <!--<DataGridTextColumn Header="ID клиента"       Binding="{Binding Path=IdClient}"/>-->
                 <DataGridTextColumn Header="Адрес"           Binding="{Binding Path=Address}"/>
                 <DataGridTextColumn Header="Дата заказа"    Binding="{Binding Path=OrderDate}"/>
-
+                <DataGridTextColumn Header="Сумма"       Binding="{Binding Path=Cost}"/>
             </DataGrid.Columns>
 
             <DataGrid.ItemContainerStyle>
@@ -41,6 +41,5 @@
                 </Style>
             </DataGrid.ItemContainerStyle>
         </DataGrid>
-
     </Grid>
 </Page>

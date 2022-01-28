@@ -6,7 +6,6 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-
 #nullable disable
 
 namespace ClassLibrary
@@ -22,7 +21,6 @@ namespace ClassLibrary
         public virtual DbSet<ListOfSupportedModel> ListOfSupportedModels { get; set; }
         public virtual DbSet<Manufacturer> Manufacturers { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<OrderDelivery> OrderDeliveries { get; set; }
         public virtual DbSet<OrderStatus> OrderStatuses { get; set; }
         public virtual DbSet<Phone> Phones { get; set; }
         public virtual DbSet<PhoneModel> PhoneModels { get; set; }
@@ -34,6 +32,7 @@ namespace ClassLibrary
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<Supply> Supplies { get; set; }
         public virtual DbSet<SupplyOrder> SupplyOrders { get; set; }
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
             Database.Migrate();
@@ -61,8 +60,6 @@ namespace ClassLibrary
                 Scaffold-DbContext "host=localhost;port=5432;database=sopct;username=postgres;password=123" npgsql.entityframeworkcore.postgresql
                 -Tables "product"
 
-                // - tables "author", "book", "author_book"
-                // npgsql.entityframeworkcore.postgresql
                 */
             }
         }

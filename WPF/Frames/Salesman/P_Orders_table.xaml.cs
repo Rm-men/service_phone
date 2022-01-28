@@ -1,6 +1,7 @@
 ﻿using ClassLibrary;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace WPF.Frames.Salesman
         {
             prod = pr;
             InitializeComponent();
-            Refresn();     
+            Refresn();
         }
 
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
@@ -40,6 +41,7 @@ namespace WPF.Frames.Salesman
         public void Refresn()
         {
             dataGrid.ItemsSource = Order.GetInfo();
+            dataGrid.Items.SortDescriptions.Add(new SortDescription("IdOrder", ListSortDirection.Descending));
         }
     }
 }

@@ -26,6 +26,5 @@ namespace ClassLibrary
             return fullName;
         }
 
-
     }
 }

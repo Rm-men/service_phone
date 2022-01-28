@@ -1,4 +1,4 @@
-﻿using ClassLibrary;
+﻿using ClassLibrary.EntityFynctions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,26 +18,20 @@ using WPF.Frames.Manager;
 namespace WPF.Frames.Salesman
 {
     /// <summary>
-    /// Логика взаимодействия для P_orders_update.xaml
+    /// Логика взаимодействия для P_products_update_component.xaml
     /// </summary>
-    public partial class P_orders_update : Page
+    public partial class P_products_update_component : Page
     {
-        private Order order;
-        P_orders p_or;
-
-        public P_orders_update(Order or, P_orders p_ord)
+        public P_products_update_component(A_Product a_, P_products p_)
         {
             InitializeComponent();
-            labelInfo.Content = Convert.ToString(or.IdOrder);
-            order = or;
-            p_or = p_ord;
-            dataGrid.ItemsSource = Product.GetProducts(or.GetPa());
         }
-
-
-        private void B_redu(object sender, RoutedEventArgs e)
+        private void InputOnlyNumbs(object sender, TextCompositionEventArgs e)
         {
-            p_or.Refresh();
+            if (!Char.IsDigit(e.Text, 0))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

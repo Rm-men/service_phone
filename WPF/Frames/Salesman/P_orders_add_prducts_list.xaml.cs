@@ -13,31 +13,24 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WPF.Frames.Manager;
 
 namespace WPF.Frames.Salesman
 {
     /// <summary>
-    /// Логика взаимодействия для P_orders_update.xaml
+    /// Логика взаимодействия для P_orders_add_prducts_list.xaml
     /// </summary>
-    public partial class P_orders_update : Page
+    public partial class P_orders_add_prducts_list : Page
     {
-        private Order order;
-        P_orders p_or;
-
-        public P_orders_update(Order or, P_orders p_ord)
+        public P_orders_add_prducts_list(W_orders_add_product w_Orders_Add_)
         {
             InitializeComponent();
-            labelInfo.Content = Convert.ToString(or.IdOrder);
-            order = or;
-            p_or = p_ord;
-            dataGrid.ItemsSource = Product.GetProducts(or.GetPa());
+            dataGrid.ItemsSource = Product.GetProducts();
         }
 
-
-        private void B_redu(object sender, RoutedEventArgs e)
+        private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            p_or.Refresh();
+            /*            W_products_update def_W = new W_products_update(product, this);
+                        def_W.Show();*/
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClassLibrary.EntityFynctions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,19 +13,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ClassLibrary;
+using WPF.Frames.Manager;
 
-namespace WPF.Frames.Admin
+namespace WPF.Frames.Salesman
 {
     /// <summary>
-    /// Логика взаимодействия для P_users_table.xaml
+    /// Логика взаимодействия для P_products_update_phone.xaml
     /// </summary>
-    public partial class P_users_table : Page
+    public partial class P_products_update_phone : Page
     {
-        public P_users_table()
+        public P_products_update_phone(A_Product a_, P_products p_)
         {
             InitializeComponent();
-            dataGrid.ItemsSource = Client.GetInfo();
         }
     }
 }

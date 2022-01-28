@@ -11,8 +11,5 @@ namespace ClassLibrary
         public string ListSupmodelName { get; set; }
         public string IdComponent { get; set; }
         public string IdPhoneModel { get; set; }
-
-        public virtual Component IdComponentNavigation { get; set; }
-        public virtual PhoneModel IdPhoneModelNavigation { get; set; }
     }
 }

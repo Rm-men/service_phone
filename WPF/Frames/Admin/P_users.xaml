@@ -16,8 +16,6 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
             <Button x:Name="b_emp_list"  Height="32" Margin="5 0 5 0"  >Таблица клиентов</Button>
-            <Button x:Name="b_emp_upade"  Height="32" Margin="5 0 5 0" >Изменить параметры клиента</Button>
-            <Button x:Name="b_emp_delete"  Height="32" Margin="5 0 5 0">Удалить клиента</Button>
         </StackPanel>
         <Frame x:Name="spase" Grid.Row="1">
 

@@ -9,7 +9,5 @@ namespace ClassLibrary
     {
         public string Imei { get; set; }
         public string IdPhoneModel { get; set; }
-
-        public virtual PhoneModel IdPhoneModelNavigation { get; set; }
     }
 }

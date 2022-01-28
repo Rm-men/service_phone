@@ -9,7 +9,6 @@ namespace ClassLibrary
     {
         public Order()
         {
-            OrderDeliveries = new HashSet<OrderDelivery>();
             PushareAgreements = new HashSet<PushareAgreement>();
         }
 
@@ -22,7 +21,6 @@ namespace ClassLibrary
 
         public virtual Client IdClientNavigation { get; set; }
         public virtual OrderStatus IdOrderStatusNavigation { get; set; }
-        public virtual ICollection<OrderDelivery> OrderDeliveries { get; set; }
         public virtual ICollection<PushareAgreement> PushareAgreements { get; set; }
     }
 }

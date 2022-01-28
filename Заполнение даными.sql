@@ -160,8 +160,6 @@ from Employee_of_company_json j
 cross join lateral json_populate_recordset(null::Employee_of_company, doc) as jpr
 ;
 
-
-
 --truncate component cascade;
 with Component_json (doc) as ( -- Component
    values
@@ -195,6 +193,11 @@ select  jpr.*
 from Component_json j
 cross join lateral json_populate_recordset(null::Component, doc) as jpr
 ;
+/*
+UPDATE component
+SET id_product = id_component;
+*/
+INSERT INTO phone_model VALUES ('pb_sgh', 'Телефон 5 про + компакт', 'Надежнейший телефон', 'n_0', 'ph_gmsns', 'p_base_phone');
 
 with Order_status_json (doc) as ( -- Order_status
    values
@@ -306,7 +309,6 @@ select  jpr.*
 from Position_in_order_json j
 cross join lateral json_populate_recordset(null::Position_in_order, doc) as jpr
 ;
-
 
 
 with Phone_model_json (doc) as ( -- Phone_model

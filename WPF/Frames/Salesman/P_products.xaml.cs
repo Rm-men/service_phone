@@ -1,4 +1,5 @@
 ﻿using ClassLibrary;
+using ClassLibrary.EntityFynctions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,9 +34,14 @@ namespace WPF.Frames.Manager
             Refresh();
         }
 
-        public void To_update(Product rp)
+        public void To_update(A_Product pr)
         {
-            spase.Navigate(new P_prosucts_update(rp, this));
+/*            
+            if (pr.Ret_Type() == "Телефон")
+                spase.Navigate(new P_products_update_phone(pr, this));
+            else 
+                spase.Navigate(new P_products_update_component(pr, this));
+*/
         }
 
         public  void Bto_add(object sender, RoutedEventArgs e)

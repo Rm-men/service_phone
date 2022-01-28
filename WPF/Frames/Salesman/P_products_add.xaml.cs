@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WPF.Frames.Manager;
+using WPF.Frames;
 
 namespace WPF.Frames.Salesman
 {
@@ -28,11 +29,7 @@ namespace WPF.Frames.Salesman
 
         private void B_add_product(object sender, RoutedEventArgs e)
         {
-            if (TB_id.Text != "" &&
-                TB_Name.Text != "" &&
-                TB_Price.Text != "" &&
-                TB_Count.Text != ""
-                )
+            if (FunctionsOnPages.TB_NotNuls(TB_id, TB_Name, TB_Price, TB_Count))
                 try
                 {
                     Context.Db2.Products.Add(new Product
