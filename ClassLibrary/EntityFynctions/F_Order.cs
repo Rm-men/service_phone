@@ -24,21 +24,6 @@ namespace ClassLibrary
                         Cost = (decimal)p.AllCost
                     }).ToList();
         }
-        /*        public static List<Info> GetInfo()
-                {
-                    return (from o in Context.Db2.Orders
-                            join s in Context.Db2.OrderStatuses on o.IdOrderStatus equals s.IdOrderStatus
-
-                            select new Info()
-                            {
-                                IdOrder = o.IdOrder,
-                                OrderDate = o.OrderDate,
-                                PhoneNumber = o.PhoneNumber,
-                                Address = o.Address,
-                                IdClient = o.IdClient,
-                                IdOrderStatus = s.DescriptionOrderStatus
-                            }).ToList();
-                }*/
         public class Info
         {
             public int IdOrder { get; set; }

@@ -34,14 +34,9 @@ namespace WPF.Frames.Manager
             Refresh();
         }
 
-        public void To_update(A_Product pr)
+        public void To_update(Product pr)
         {
-/*            
-            if (pr.Ret_Type() == "Телефон")
-                spase.Navigate(new P_products_update_phone(pr, this));
-            else 
-                spase.Navigate(new P_products_update_component(pr, this));
-*/
+            spase.Navigate(new P_prosucts_update(pr, this));
         }
 
         public  void Bto_add(object sender, RoutedEventArgs e)

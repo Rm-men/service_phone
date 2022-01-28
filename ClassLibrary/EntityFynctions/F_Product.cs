@@ -67,9 +67,7 @@ namespace ClassLibrary
                 (from p in Context.Db2.Products
                  join po in Context.Db2.PositionInOrders on p.IdProduct equals po.IdProduct
                  where po.IdPushareAgreement == pa.IdPushareAgreement
-                 //join pa in Context.Db2.PushareAgreements on ID_O equals pa.IdOrder
-                 //join o in Context.Db2.Orders on o
-                 //where po.IdPushareAgreement == 
+
                  select new ProductInfo()
                     {
                         IdProduct = p.IdProduct,

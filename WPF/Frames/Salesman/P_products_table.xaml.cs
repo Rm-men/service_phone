@@ -18,6 +18,7 @@ using ClassLibrary.EntityFynctions;
 using WPF.Frames.Manager;
 using static ClassLibrary.EntityFynctions.A_Product;
 using static ClassLibrary.Product;
+using ProductInfo = ClassLibrary.Product.ProductInfo;
 
 namespace WPF.Frames.Salesman
 {
@@ -42,16 +43,12 @@ namespace WPF.Frames.Salesman
 
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            //ProductInfo product = dataGrid.SelectedValue as ProductInfo;
-            //A_Product a_pr = A_Product.GetUncm(product.IdProduct);
+            ProductInfo product = dataGrid.SelectedValue as ProductInfo;
+            Product a_pr = Product.GettProduct(product.IdProduct);
             //MessageBox.Show(product.GetP().Ret_Type()); 
-            /*
-            if (a_pr != null)
-                MessageBox.Show(" "+ a_pr.Get());
-            else MessageBox.Show("Ошибка, не найден объект"+ a_pr.ToString());
-            if (a_pr.Ret_Type() == "Телефон")
+          
             p_prod.To_update(a_pr);
-            */
+          
         }
         public void Refresn()
         {

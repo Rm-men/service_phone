@@ -26,7 +26,7 @@
             </DataGrid.CellStyle>
             
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Path=IdProduct}"/>
+                <!--<DataGridTextColumn Header="ID" Binding="{Binding Path=IdProduct}"/>-->
                 <DataGridTextColumn Header="Тип" Binding="{Binding Path=Type}"/>
                 <DataGridTextColumn Header="Название" Binding="{Binding Path=Name}"/>
                 <DataGridTextColumn Header="Цена" Binding="{Binding Path=Price}"/>
